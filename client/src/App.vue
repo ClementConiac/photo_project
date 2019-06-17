@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <Header-back v-if="$route.meta.admin"/>
     <Header v-if="!$route.meta.requiresHeader"/>
       <v-content class="accent">
         <router-view>
@@ -12,12 +13,14 @@
 <script>
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import HeaderBack from '@/components/Header-back'
+
 
 
 export default {
   name: 'App',
   components: {
-    Header , Footer
+    Header , Footer , HeaderBack
   },
   data () {
     return {

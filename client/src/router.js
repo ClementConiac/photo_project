@@ -8,6 +8,8 @@ import Account from './views/front/Account.vue'
 import Cart from './views/front/Cart.vue'
 import Modify from './views/front/Modify.vue'
 import Administration from './views/back/Home-back.vue'
+import Users from './views/back/Users-back.vue'
+import Items from './views/back/Items-back.vue'
 import Register from './views/front/Register.vue'
 import Login from './views/front/Login.vue'
 
@@ -78,7 +80,35 @@ export default new Router({
       path: '/home-back',
       name: 'home-back',
       component : Administration,
-      meta: { requiresHeader: true, requiresFooter: true}
+      meta: { 
+        requiresHeader: true,
+        requiresFooter: true,
+        admin : true
+      }
     },
+    {
+      path: '/users-back',
+      name: 'users-back',
+      component : Users,
+      meta: { 
+        requiresHeader: true,
+        requiresFooter: true,
+        admin : true
+      }
+    },
+    {
+      path: '/items-back',
+      name: 'items-back',
+      component : Items,
+      meta: { 
+        requiresHeader: true,
+        requiresFooter: true,
+        admin : true
+      }
+    },
+    {
+      path: '*',
+      redirect: 'home'
+    }
   ]
 })

@@ -80,16 +80,20 @@ export default {
     methods: {
         async register() {
             try{
-                await AuthenticationService.register({
+                const response = await AuthenticationService.register({
                     firstname: this.firstname,
                     lastname: this.lastname,
                     email: this.email,
                     password: this.password
                 })
+            this.$store.dispatch('setToken', response.data.token)
+            this.$store.dispatch('setUser', response.data.user)
+            this.$router.push({
+                name: 'home'
+            })
             } catch (error) {
                 this.error = error.response.data.error
             }
-            
         }
     },
 }
