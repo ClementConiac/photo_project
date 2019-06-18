@@ -17,8 +17,20 @@
                             <v-icon right>expand_more</v-icon>
                         </v-btn>
                         <v-list>
-                            <v-list-tile v-for="linkUser in linksUser" :key="linkUser.text" router :to="linkUser.route">
-                                <v-list-tile-title>{{ linkUser.text }}</v-list-tile-title>
+                            <v-list-tile to="account">
+                                <v-list-tile-title>Informations</v-list-tile-title>
+                            </v-list-tile>
+                            <v-list-tile to="account">
+                                <v-list-tile-title>Commandes</v-list-tile-title>
+                            </v-list-tile>
+                            <v-list-tile to="account">
+                                <v-list-tile-title>Adresses</v-list-tile-title>
+                            </v-list-tile>
+                            <v-list-tile to="account">
+                                <v-list-tile-title>Photos</v-list-tile-title>
+                            </v-list-tile>
+                            <v-list-tile @click="logout">
+                                <v-list-tile-title class="error--text">Déconnexion</v-list-tile-title>
                             </v-list-tile>
                         </v-list>
                     </v-menu>
@@ -81,14 +93,6 @@ export default {
           {icon: '', text: 'Équipe',categories: 'test-cats', route: 'team'},
           {icon: '', text: 'Contact',categories: 'test-cats', route: 'team#test'}
         ],
-        linksUser: [
-          {icon: '', text: 'Informations', route: 'account'},
-          {icon: '', text: 'Commandes', route: 'account'},
-          {icon: '', text: 'Adresses', route: 'account'},
-          {icon: '', text: 'Photos', route: 'account'},
-          {icon: '', text: 'Déconnexion', route: 'account'}
-        ],
-
         items: [
           {
             action: 'local_activity',
