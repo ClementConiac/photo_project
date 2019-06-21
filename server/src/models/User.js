@@ -23,13 +23,18 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             unique: true
         },
-        password: DataTypes.STRING
+        password: DataTypes.STRING,
+        isAdmin:{
+            type: DataTypes.BOOLEAN,
+            allowNull: false, 
+            defaultValue: false
+        }, 
     }, {
         hooks: {
             /* beforeCreate: hashPassword,
             beforeUpdate: hashPassword, */
             beforeSave: hashPassword
-        }
+        },
     })
     
 

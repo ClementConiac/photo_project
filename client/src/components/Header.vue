@@ -29,6 +29,9 @@
                             <v-list-tile to="account">
                                 <v-list-tile-title>Photos</v-list-tile-title>
                             </v-list-tile>
+                            <v-list-tile v-if="isAdmin" to="admin">
+                                <v-list-tile-title class="orange--text">Administration</v-list-tile-title>
+                            </v-list-tile>
                             <v-list-tile @click="logout">
                                 <v-list-tile-title class="error--text">Déconnexion</v-list-tile-title>
                             </v-list-tile>
@@ -83,7 +86,9 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex'
 export default {
+    
     data () {
         return {
         drawer: false,
@@ -123,10 +128,21 @@ export default {
         ]
       }
     },
+    computed: {
+        ...mapGetters([
+            'isAdmin'
+        ])
+    },
     methods: {
+        ...mapActions([
+            'setToken',
+            'setUser'
+        ]),
         logout () {
-            this.$store.dispatch('setToken', null)
-            this.$store.dispatch('setUser', null)
+            this.setToken(null)
+            this.setUser(null)
+             /* this.$store.dispatch('setToken', null)
+            this.$store.dispatch('setUser', null) */
             this.$router.push({
                 name: 'home'
             })

@@ -77,8 +77,8 @@ export default new Router({
       component : Modify
     },
     {
-      path: '/home-back',
-      name: 'home-back',
+      path: '/admin',
+      name: 'admin',
       component : Administration,
       meta: { 
         requiresHeader: true,
@@ -87,8 +87,8 @@ export default new Router({
       }
     },
     {
-      path: '/users-back',
-      name: 'users-back',
+      path: '/admin/users',
+      name: 'admin-users',
       component : Users,
       meta: { 
         requiresHeader: true,
@@ -97,8 +97,18 @@ export default new Router({
       }
     },
     {
-      path: '/items-back',
-      name: 'items-back',
+      path: '/admin/items',
+      name: 'admin-items',
+      component : Items,
+      meta: { 
+        requiresHeader: true,
+        requiresFooter: true,
+        admin : true
+      }
+    },
+    {
+      path: '/admin/items/:itemId',
+      name: 'admin-items-id',
       component : Items,
       meta: { 
         requiresHeader: true,

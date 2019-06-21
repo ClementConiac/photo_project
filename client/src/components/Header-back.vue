@@ -23,7 +23,7 @@
 
 
 
-            <v-btn flat color="primary">
+            <v-btn flat color="primary" @click="logout">
                 <span>Sign out</span>
                 <v-icon right>exit_to_app</v-icon>
             </v-btn>
@@ -55,10 +55,19 @@ export default {
         return {
             drawer: false,
             links: [
-                { icon: 'dashboard', text: 'Dashboard', route: '/home-back' },
-                { icon: 'folder', text: 'Items', route: '/items-back' },
-                { icon: 'account_circle', text: 'Users', route: '/users-back' },
+                { icon: 'dashboard', text: 'Dashboard', route: '/admin' },
+                { icon: 'folder', text: 'Items', route: '/admin/items' },
+                { icon: 'account_circle', text: 'Users', route: '/admin/users' },
             ]
+        }
+    },
+    methods: {
+        logout () {
+            this.$store.dispatch('setToken', null)
+            this.$store.dispatch('setUser', null)
+            this.$router.push({
+                name: 'home'
+            })
         }
     }
 }

@@ -5,31 +5,18 @@
         <v-container class="my-5">
 
             <v-layout row wrap justify-start class="mb-3">
-                <v-tooltip top>
-                    <v-btn small flat color="grey" @click="sortBy('title')" slot="activator">
-                        <v-icon small left>folder</v-icon>
-                        <span class="caption text-lowercase">By item name</span>
-                    </v-btn>
-                    <span>Sort by project name</span>
-                </v-tooltip>
-                <v-tooltip top>
-                    <v-btn small flat color="grey" @click="sortBy('price')" slot="activator">
-                        <v-icon small left>person</v-icon>
-                        <span class="caption text-lowercase">By price</span>
-                    </v-btn>
-                    <span>Sort by project author</span>
-                </v-tooltip>
-                <v-dialog max-width="600px">
+                <v-dialog max-width="600px" v-model="dialog">
                     <v-btn flat slot="activator" class="primary">Add a new item</v-btn>
                         <v-card>
                             <v-card-title>
                                 <h2>Add a new item</h2>
                             </v-card-title>
                             <v-card-text>
-                                <v-form>
-                                    <v-text-field label="Title" v-model="title" prepend-icon="folder"></v-text-field>
-                                    <v-textarea label="Description" v-model="description" prepend-icon="edit"></v-textarea>
-                                    <v-btn flat class="mx-0 mt-3 primary" @click="save">Save</v-btn>
+                                <v-form ref="form">
+                                    <v-text-field label="Title" v-model="title" :rules="inputRules" prepend-icon="folder"></v-text-field>
+                                    <v-textarea label="Description" v-model="description" :rules="inputRules" prepend-icon="edit"></v-textarea>
+                                    <v-text-field label="Price" v-model="price" :rules="inputRulesNumber" prepend-icon="euro_symbol"></v-text-field>
+                                    <v-btn flat class="mx-0 mt-3 primary" @click="create">Save</v-btn>
                                 </v-form>
                             </v-card-text>
                         </v-card>
@@ -37,19 +24,23 @@
                 
             </v-layout>
 
-            <v-card flat class="grey lighten-4" v-for="item in items" :key="item.title">
-               <v-layout row wrap :class="`pa-3 item ${item.status}`">
-                   <v-flex xs12 md4>
-                       <div class="caption grey--text ">Item title</div>
+            <v-card flat class="grey lighten-4" v-for="item in items" :key="item.id">
+               <v-layout row wrap :class="`pa-3 item`">
+                   <v-flex xs12 md1>
+                       <div class="caption grey--text">#</div>
+                       <div>{{ item.id }}</div>
+                   </v-flex>
+                   <v-flex xs12 md3>
+                       <div class="caption grey--text">Item title</div>
                        <div>{{ item.title }}</div>
                    </v-flex>
                    <v-flex xs6 sm4 md4>
-                       <div class="caption grey--text ">Description</div>
+                       <div class="caption grey--text">Description</div>
                        <div>{{ item.description }}</div>
                    </v-flex>
                    <v-flex xs6 sm4 md2>
-                       <div class="caption grey--text ">price</div>
-                       <div>{{ item.price }}</div>
+                       <div class="caption grey--text">Price</div>
+                       <div>{{ item.price }}€</div>
                    </v-flex>
                    <v-flex xs12 sm4 md2 right>
                         <v-dialog max-width="600px">
@@ -62,12 +53,13 @@
                                         <v-form>
                                             <v-text-field label="Title" v-model="title" prepend-icon="folder"></v-text-field>
                                             <v-textarea label="Description" v-model="description" prepend-icon="edit"></v-textarea>
+                                            <v-text-field label="Price" v-model="price" :rules="inputRules" prepend-icon="euro_symbol"></v-text-field>
                                             <v-btn flat class="mx-0 mt-3 primary" @click="modify">Modify</v-btn>
                                         </v-form>
                                     </v-card-text>
                                 </v-card>
                         </v-dialog>
-                        <v-btn flat class="red accent--text">Delete</v-btn>
+                        <v-btn flat class="red accent--text" :to="{name:'admin-items-id', params:{itemId: item.id}}" @click="remove">Delete</v-btn>
                    </v-flex>
                </v-layout>
                <v-divider></v-divider>
@@ -77,31 +69,58 @@
 </template>
 
 <script>
+import BackEndService from '@/services/BackEndService'
+
 export default {
     data () {
         return {
-            items: [
-                { title: 'Design a new website', description: 'The Net Ninja', price: '25', status: 'large' },
-                { title: 'Code up the homepage', description: 'Chun Li', price: '40', status: 'medium' },
-                { title: 'Design video thumbnails', description: 'Ryu', price: '35', status: 'small' },
-                { title: 'Create a community forum', description: 'Gouken', price: '15', status: 'medium' }
-            ],
             title: '',
             description: '',
             price: '',
-
+            inputRules: [
+                v => v.length >= 3 || 'Minimum length is 3 characters'
+            ],
+            inputRulesNumber: [
+                v => v >= /^[0-9]$/ || 'Only number allowed here'
+            ],
+            dialog: false,
+            items: null
         }
     },
+    async mounted () {
+        this.items = (await BackEndService.displayItems()).data
+    },
     methods: {
-        sortBy(prop) {
-        this.items.sort((a,b) => a[prop] < b[prop] ? -1 : 1)
-        },
-        save () {
-            /* console.log(this.title, this.description) */
+        async create() {
+            if (this.$refs.form.validate()){
+                try{
+                const response = await BackEndService.create({
+                    title: this.title,
+                    description: this.description,
+                    price: this.price,
+                }).then(() => {
+                    this.dialog = false
+                    this.$router.push({
+                        name: 'admin-items'
+                    })
+                })
+                } catch (error) {
+                    this.error = error.response.data.error
+                }
+            }
         },
         modify () {
-            /* console.log(this.title, this.description) */
+        },
+        async remove () {
+            try{
+                const response = await BackEndService.remove()
+            } catch (error) {
+                this.error = error.response.data.error
+            }
         }
+    },
+    watch: {
+
     }
 }
 </script>
