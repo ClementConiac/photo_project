@@ -97,6 +97,16 @@ export default new Router({
       }
     },
     {
+      path: '/admin/users/:userId',
+      name: 'admin-users-id',
+      component : Users,
+      meta: { 
+        requiresHeader: true,
+        requiresFooter: true,
+        admin : true
+      }
+    },
+    {
       path: '/admin/items',
       name: 'admin-items',
       component : Items,

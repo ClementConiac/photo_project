@@ -94,7 +94,7 @@ export default {
         async create() {
             if (this.$refs.form.validate()){
                 try{
-                const response = await BackEndService.create({
+                const response = await BackEndService.createItem({
                     title: this.title,
                     description: this.description,
                     price: this.price,
@@ -111,9 +111,9 @@ export default {
         },
         modify () {
         },
-        async remove () {
+        async remove() {
             try{
-                const response = await BackEndService.remove()
+                const response = await BackEndService.removeItem()
             } catch (error) {
                 this.error = error.response.data.error
             }

@@ -1,7 +1,7 @@
 const {Item} = require('../models')
 
 module.exports = {
-    async create (req, res) {
+    async createItem (req, res) {
         try{
             const item = await Item.create(req.body)
             res.send(item)
@@ -21,7 +21,7 @@ module.exports = {
             })
         }
     },
-    async remove (req, res) {
+    async removeItem (req, res) {
         try{
             const itemId = req.params.itemId
             const deleteItem = await Item.destroy({
