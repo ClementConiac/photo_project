@@ -17,17 +17,23 @@ module.exports = (app) =>{
     app.get('/admin/items',
         ItemController.displayItems
     )
+    /* app.get('/admin/items/:itemId',
+        UserController.updateItem
+    ) */
     app.delete('/admin/items/:itemId',
         ItemController.removeItem
     )
+
     app.post('/admin/users',
         UserController.createUser
     )
     app.get('/admin/users',
         UserController.displayUsers
     )
+    app.put('/admin/users/:userId',
+        UserController.updateUser
+    )
     app.delete('/admin/users/:userId',
         UserController.removeUser
     )
-
 }

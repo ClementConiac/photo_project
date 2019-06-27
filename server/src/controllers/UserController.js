@@ -21,6 +21,21 @@ module.exports = {
             })
         }
     },
+    async updateUser (req, res) {
+        try{
+            const userId = req.params.userId
+            const updateUser = await User.update(req.body,{
+                where : {
+                    id: userId
+                }
+            })
+            res.send(updateUser)
+        } catch (err) {
+            res.status(500).send({
+                error: 'An error has occured trying to update the user.'
+            })
+        }
+    },
     async removeUser (req, res) {
         try{
             const userId = req.params.userId
@@ -28,9 +43,7 @@ module.exports = {
                 where : {
                     id: userId
                 }
-            })/* .then((deleteItem) => {
-                console.log(`Did it worked ? ${deleteItem}`)
-            }) */
+            })
             res.send(deleteUser)
         } catch (err) {
             res.status(500).send({

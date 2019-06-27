@@ -78,9 +78,14 @@
             </v-layout>
         </v-container>
         <v-layout class="secondary column align-center justify-center">
-            <p class="headline mt-3">Savoir qui nous sommes</p>
-            <p>lorem for now</p>
-            <v-btn to="/team" class="mb-4" depressed large color="primary">Voir notre équipe</v-btn>
+            <v-flex xs12 md6>
+                <p class="headline mt-3 text-xs-center">Savoir qui nous sommes</p>
+                <p class="text-xs-center">Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte.</p>
+                <p class="text-xs-center">
+                    <v-btn to="/team" class="mb-4" depressed large color="primary">Voir notre équipe</v-btn>
+                </p>
+            </v-flex>
+            
         </v-layout>
     </section>
 </template>

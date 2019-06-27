@@ -23,25 +23,38 @@ export default new Router({
     {
       path: '/home',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        requiresFooterBis: true,
+        requiresFooter: false
+      }
     },
     {
       path: '/product',
       name: 'product',
-      component: Product
+      component: Product,
+      meta: {
+        requiresFooterBis: false,
+        requiresFooter: true
+      }
     },
     {
       path: '/shop',
       name: 'shop',
       component : Shop,
       meta: {
-        changeColor: true
+        requiresFooterBis: false,
+        requiresFooter: true
       }
     },
     {
       path: '/team',
       name: 'team',
-      component : Team
+      component : Team,
+      meta: {
+        requiresFooterBis: false,
+        requiresFooter: true
+      }
     },
     {
       path: '/register',
@@ -49,7 +62,8 @@ export default new Router({
       component : Register,
       meta: {
         requiresHeader: true, 
-        requiresFooter: true
+        requiresFooter: true,
+        requiresFooterBis: true,
       }
     },
     {
@@ -58,23 +72,36 @@ export default new Router({
       component : Login,
       meta: {
         requiresHeader: true, 
-        requiresFooter: true
+        requiresFooter: true,
+        requiresFooterBis: true,
       }
     },
     {
       path: '/account',
       name: 'account',
-      component : Account
+      component : Account,
+      meta: {
+        requiresFooterBis: false,
+        requiresFooter: true,
+      }
     },
     {
       path: '/cart',
       name: 'cart',
-      component : Cart
+      component : Cart,
+      meta: {
+        requiresFooterBis: false,
+        requiresFooter: true
+      }
     },
     {
       path: '/modify',
       name: 'modify',
-      component : Modify
+      component : Modify,
+      meta: {
+        requiresFooterBis: false,
+        requiresFooter: true
+      }
     },
     {
       path: '/admin',
@@ -83,6 +110,7 @@ export default new Router({
       meta: { 
         requiresHeader: true,
         requiresFooter: true,
+        requiresFooterBis: true,
         admin : true
       }
     },
@@ -93,6 +121,7 @@ export default new Router({
       meta: { 
         requiresHeader: true,
         requiresFooter: true,
+        requiresFooterBis: true,
         admin : true
       }
     },
@@ -103,6 +132,7 @@ export default new Router({
       meta: { 
         requiresHeader: true,
         requiresFooter: true,
+        requiresFooterBis: true,
         admin : true
       }
     },
@@ -113,6 +143,7 @@ export default new Router({
       meta: { 
         requiresHeader: true,
         requiresFooter: true,
+        requiresFooterBis: true,
         admin : true
       }
     },
@@ -123,6 +154,7 @@ export default new Router({
       meta: { 
         requiresHeader: true,
         requiresFooter: true,
+        requiresFooterBis: true,
         admin : true
       }
     },

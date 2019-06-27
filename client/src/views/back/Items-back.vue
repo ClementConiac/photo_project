@@ -44,7 +44,7 @@
                    </v-flex>
                    <v-flex xs12 sm4 md2 right>
                         <v-dialog max-width="600px">
-                            <v-btn flat slot="activator" class="orange accent--text">Modify</v-btn>
+                            <v-btn flat slot="activator" class="orange accent--text" :to="{name:'admin-items-id', params:{itemId: item.id}}">Modify</v-btn>
                                 <v-card>
                                     <v-card-title>
                                         <h2>Modify item</h2>
@@ -84,7 +84,7 @@ export default {
                 v => v >= /^[0-9]$/ || 'Only number allowed here'
             ],
             dialog: false,
-            items: null
+            items: null,
         }
     },
     async mounted () {

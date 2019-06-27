@@ -1,7 +1,7 @@
 import Api from '@/services/Api'
 
 export default{
-    createItem (credentials){
+    createItem (credentials) {
         return Api().post('admin/items', credentials)
     },
     displayItems () {
@@ -10,14 +10,18 @@ export default{
     removeItem () {
         return Api().delete('admin/items/:itemId')
     },
+
     createUser (credentials){
         return Api().post('admin/users', credentials)
     },
     displayUsers () {
         return Api().get('admin/users')
     },
-    removeUser () {
-        return Api().delete('admin/users/:userId')
+    updateUser (userId, userUpdate) {
+        return Api().put(`admin/users/${userId}` , userUpdate)
+    },
+    removeUser (userId) {
+        return Api().delete(`admin/users/${userId}`)
     },
 
 }

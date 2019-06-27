@@ -13,7 +13,7 @@
                     <v-btn class="accent--text point-cursor" v-if="!$store.state.isUserLoggedIn" flat to="login">Connexion/Inscription</v-btn>
                     <v-menu offset-y v-if="$store.state.isUserLoggedIn">
                         <v-btn flat slot="activator" color="accent">
-                            <span>UserName</span>
+                            <span>{{$store.state.user.firstname}}</span>
                             <v-icon right>expand_more</v-icon>
                         </v-btn>
                         <v-list>
@@ -55,7 +55,8 @@
                     <v-icon class="ml-3" large>account_circle</v-icon>
 
                     <v-btn v-if="$store.state.isUserLoggedIn" to="account" flat color="grey">
-                        <span class="accent--text">Compte Username</span>
+                        <span class="accent--text">Compte {{$store.state.user.firstname}}</span>
+                        <v-icon class="accent--text">keyboard_arrow_right</v-icon>
                     </v-btn>
                     
                     <div class="d-flex" v-if="!$store.state.isUserLoggedIn">
@@ -78,9 +79,15 @@
                     </v-card>
                 </v-expansion-panel-content>
             </v-expansion-panel>
-            <v-btn v-if="$store.state.isUserLoggedIn" @click="logout" flat color="error">
-                <span >Déconnexion</span>
-            </v-btn>
+            <div v-if="$store.state.isUserLoggedIn">
+                <v-btn v-if="isAdmin" flat class="orange--text" to="admin">
+                    <span>Administration</span>
+                </v-btn>
+                <v-btn @click="logout" flat color="error">
+                    <span>Déconnexion</span>
+                </v-btn>
+            </div>
+            
         </v-navigation-drawer>
     </section>
 </template>
@@ -102,10 +109,19 @@ export default {
           {
             action: 'local_activity',
             icon: 'dashboard',
-            title: 'Boutique',
+            title: 'Home',
             items: [
-              { title: 'Casquette', route: '/boutique/categorie1'},
-              { title: 'Sacoche', route: '/boutique/categorie1'},
+              { title: 'Home', route: '/home'},
+              
+            ]
+          },
+          {
+            action: 'local_activity',
+            icon: 'dashboard',
+            title: 'Boutiue',
+            items: [
+              { title: 'Casquette', route: '/shop'},
+              { title: 'Sacoche', route: '/shop'},
             ]
           },
           {
@@ -113,16 +129,15 @@ export default {
             icon: 'dashboard',
             title: 'Équipe',
             items: [
-              { title: 'À propos', route: '/product'}
+              { title: 'Équipe', route: '/team'},
             ]
           },
-          {
+           {
             action: 'local_activity',
             icon: 'dashboard',
             title: 'Contact',
             items: [
-              { title: 'List Item', route: '/about3'},
-              { title: 'dernier Item', route: '/about4'}
+              { title: 'Contact', route: '/team'},
             ]
           },
         ]
@@ -139,14 +154,10 @@ export default {
             'setUser'
         ]),
         logout () {
+            window.location.reload()
             this.setToken(null)
             this.setUser(null)
-             /* this.$store.dispatch('setToken', null)
-            this.$store.dispatch('setUser', null) */
-            this.$router.push({
-                name: 'home'
-            })
-        }
+        },
     },
     watch: {
       '$vuetify.breakpoint.mdAndUp': function () {

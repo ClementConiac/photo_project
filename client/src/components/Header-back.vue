@@ -11,8 +11,8 @@
 
             <v-menu offset-y>
                 <v-btn flat slot="activator" color="primary">
-                    <v-icon left>expand_more</v-icon>
                     <span>menu</span>
+                    <v-icon right>expand_more</v-icon>
                 </v-btn>
                 <v-list>
                     <v-list-tile v-for="link in links" :key="link.text" router :to="link.route">
@@ -21,11 +21,9 @@
                 </v-list>
             </v-menu>
 
-
-
             <v-btn flat color="primary" @click="logout">
-                <span>Sign out</span>
-                <v-icon right>exit_to_app</v-icon>
+                <span class="error--text">{{$store.state.user.firstname}}</span>
+                <v-icon class="error--text" right>exit_to_app</v-icon>
             </v-btn>
         </v-toolbar>
 
@@ -55,7 +53,7 @@ export default {
         return {
             drawer: false,
             links: [
-                { icon: 'dashboard', text: 'Dashboard', route: '/admin' },
+                { icon: 'dashboard', text: 'Home', route: '/admin' },
                 { icon: 'folder', text: 'Items', route: '/admin/items' },
                 { icon: 'account_circle', text: 'Users', route: '/admin/users' },
             ]

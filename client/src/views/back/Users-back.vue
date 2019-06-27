@@ -13,7 +13,7 @@
                             </v-card-title>
                             <v-card-text>
                                 <v-form ref="form">
-                                    <v-text-field type="text" label="Firstname" :rules="inputRules" inputRules v-model="firstname" prepend-icon="folder"></v-text-field>
+                                    <v-text-field type="text" label="Firstname" :rules="inputRules" v-model="firstname" prepend-icon="folder"></v-text-field>
                                     <v-text-field type="text" label="Lastname" :rules="inputRules" v-model="lastname" prepend-icon="folder"></v-text-field>
                                     <v-text-field type="email" label="Email" :rules="inputRules" v-model="email" prepend-icon="folder"></v-text-field>
                                     <v-text-field type="password" label="Password" :rules="inputRules" v-model="password" prepend-icon="folder"></v-text-field>
@@ -31,40 +31,61 @@
                        <div>{{ user.id }}</div>
                    </v-flex>
                    <v-flex xs12 md2>
-                       <div class="caption grey--text ">User firstname</div>
+                       <div class="caption grey--text ">Firstname</div>
                        <div>{{ user.firstname }}</div>
                    </v-flex>
                    <v-flex xs6 sm4 md2>
-                       <div class="caption grey--text ">User lastname</div>
+                       <div class="caption grey--text ">Lastname</div>
                        <div>{{ user.lastname }}</div>
                    </v-flex>
                    <v-flex xs6 sm4 md3>
-                       <div class="caption grey--text ">User email</div>
+                       <div class="caption grey--text ">Email</div>
                        <div>{{ user.email }}</div>
                    </v-flex>
                    <v-flex xs2 sm4 md2>
-                       <div class="caption grey--text ">User password</div>
+                       <div class="caption grey--text ">Password</div>
                        <div class="text-truncate">{{ user.password }}</div>
                    </v-flex>
                     <v-flex xs12 sm4 md2>
                         <v-dialog max-width="600px">
-                            <v-btn flat slot="activator" class="orange accent--text">Modify</v-btn>
+                            <v-btn flat slot="activator" class="orange accent--text" :to="{name:'admin-users-id', params:{userId: user.id}}">Modify</v-btn>
                                 <v-card>
                                     <v-card-title>
                                         <h2>Modify an user</h2>
                                     </v-card-title>
                                     <v-card-text>
-                                        <v-form>
-                                            <v-text-field type="text" label="Firstname" v-model="firstname" prepend-icon="folder"></v-text-field>
-                                            <v-text-field type="text" label="Lastname" v-model="lastname" prepend-icon="folder"></v-text-field>
-                                            <v-text-field type="email" label="Email" v-model="email" prepend-icon="folder"></v-text-field>
-                                            <v-text-field type="password" label="Password" v-model="password" prepend-icon="folder"></v-text-field>
+                                        <v-form ref="formUpdate">
+                                            <v-text-field type="text" label="Firstname" :placeholder="user.firstname" v-model="userUpdate.firstname" prepend-icon="folder"></v-text-field>
+                                            <v-text-field type="text" label="Lastname" :placeholder="user.lastname" v-model="userUpdate.lastname" prepend-icon="folder"></v-text-field>
+                                            <v-text-field type="email" label="Email" :placeholder="user.email" v-model="userUpdate.email" prepend-icon="folder"></v-text-field>
+                                            <v-text-field type="password" label="Password" :placeholder="user.password" v-model="userUpdate.password" prepend-icon="folder"></v-text-field>
                                             <v-btn flat class="mx-0 mt-3 primary" @click="modify">Modify</v-btn>
                                         </v-form>
                                     </v-card-text>
                                 </v-card>
                         </v-dialog>
-                        <v-btn flat class="red accent--text" :to="{name:'admin-users-id', params:{userId: user.id}}" @click="remove">Delete</v-btn>
+                        <v-dialog max-width="290" v-model="dialogSecure">
+                            <v-btn flat slot="activator" class="red accent--text" :to="{name:'admin-users-id', params:{userId: user.id}}">Delete</v-btn>
+                            <v-card>
+                                <v-card-title class="headline">Verification</v-card-title>
+
+                                <v-card-text>
+                                    <p>Are you sure you want to delete <span class="font-weight-bold">{{ user.firstname }} {{ user.lastname }} / {{user.email}} ?</span></p>
+                                </v-card-text>
+
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+
+                                    <v-btn class="primary accent--text" flat @click="dialogSecure = false">
+                                        Disagree
+                                    </v-btn>
+
+                                    <v-btn class="error accent--text" flat @click="remove">
+                                        Agree
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
                    </v-flex>
                </v-layout>
                <v-divider></v-divider>
@@ -83,20 +104,29 @@ export default {
             lastname: '',
             email: '',
             password: '',
+            userUpdate: {
+                firstname: null,
+                lastname: null,
+                email: null,
+                password: null,
+            },
+            
             inputRules: [
                 v => v.length >= 3 || 'Minimum length is 3 characters'
             ],
             dialog: false,
-            users: null
-            
+            dialogSecure: false,
+            users: null,
         }
     },
     async mounted () {
         this.users = (await BackEndService.displayUsers()).data
     },
+
     methods: {
         async create() {
             if (this.$refs.form.validate()){
+                window.location.reload()
                 try{
                 const response = await BackEndService.createUser({
                     firstname: this.firstname,
@@ -115,12 +145,21 @@ export default {
             }
         },
 
-        modify () {
-            /* console.log(this.title, this.description) */
+        async modify () {
+            const userId = this.$route.params.userId
+             try {
+                await BackEndService.updateUser(userId, this.userUpdate)
+                console.log(userId , )
+            } catch (err) {
+                console.log(err)
+            }
         },
         async remove() {
+            const userId = this.$route.params.userId
+            window.location.reload()
             try{
-                const response = await BackEndService.removeUser()
+                const response = await BackEndService.removeUser(userId)
+                
             } catch (error) {
                 this.error = error.response.data.error
             }

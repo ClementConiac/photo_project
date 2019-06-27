@@ -4,6 +4,7 @@ import createPersistedState from 'vuex-persistedstate'
 
 
 Vue.use(Vuex)
+import AuthenticationService from '@/services/AuthenticationService' 
 
 export default new Vuex.Store({
   strict: true, // modify only with actions or mutations
@@ -14,7 +15,7 @@ export default new Vuex.Store({
     token: null,
     user: null,
     isUserLoggedIn: false,
-    isAdmin : false,
+    isAdmin :  null,
   },
   mutations: {
     setToken (state, token) {
@@ -44,11 +45,12 @@ export default new Vuex.Store({
       commit('setUser', user)
       /* console.log('slt:', user) */
       /* logique */
-    }
+    },
+    
   },
   getters: {
     isAdmin (state) {
       return state.isAdmin
     },
-  }
+  },
 })

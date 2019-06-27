@@ -34,32 +34,25 @@
                                         <v-container>
                                             <v-layout column>
                                                 <v-flex class="pb-0" xs12 md4>
-                                                    <v-text-field solo v-model="email" :rules="nameRules" label="Name" required></v-text-field>
+                                                    <v-text-field solo v-model="firstname" :rules="firstnameRules" label="Firstname" :placeholder="$store.state.user.firstname" required></v-text-field>
                                                 </v-flex>
 
                                                 <v-flex class="pb-0" xs12 md4>
-                                                    <v-text-field solo v-model="email" :rules="firstnameRules" label="Firstname" required></v-text-field>
+                                                    <v-text-field solo v-model="lastname" :rules="nameRules" label="Lastname" :placeholder="$store.state.user.lastname" required></v-text-field>
                                                 </v-flex>
 
                                                 <v-flex class="pb-0" xs12 md4>
-                                                    <v-text-field solo v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
-                                                </v-flex>
-                                                
-                                                <v-btn depressed large color="primary">Modifier</v-btn>
-                                                
-                                                <p class="text-xs-center headline pt-3">Sécurité</p>
-                                                <v-flex class="pb-0" xs12 md4>
-                                                    <v-text-field solo v-model="pasword" :rules="paswordRules" label="Ancien mot de passe" required></v-text-field>
+                                                    <v-text-field solo v-model="email" :rules="emailRules" label="E-mail" :placeholder="$store.state.user.email" required></v-text-field>
                                                 </v-flex>
 
                                                 <v-flex class="pb-0" xs12 md4>
+                                                    <v-text-field solo v-model="pasword" :rules="paswordRules" label="Mot de passe" :placeholder="$store.state.user.password" required></v-text-field>
+                                                </v-flex>
+
+                                                <!-- <v-flex class="pb-0" xs12 md4>
                                                     <v-text-field solo v-model="pasword" :rules="paswordRules" label="Nouveau mot de passe" required></v-text-field>
-                                                </v-flex>
-                                                <v-flex class="pb-0" xs12 md4>
-                                                    <v-text-field solo v-model="pasword" :rules="paswordRules" label="Confirmation du nouveau mot de passe" required></v-text-field>
-                                                </v-flex>
-
-                                                <v-btn depressed large color="primary">Modifier le mot de passe</v-btn> 
+                                                </v-flex> -->
+                                                <v-btn depressed large color="primary">Modifier</v-btn>
                                             </v-layout>
                                         </v-container>
                                     </v-form>
@@ -202,7 +195,7 @@
     export default {
     data: () => ({
         valid: false,
-        name: '',
+        lastname: '',
         nameRules: [
             v => !!v || 'Nom requis',
         ],

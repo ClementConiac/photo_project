@@ -6,6 +6,7 @@
         <router-view>
         </router-view>
       </v-content>
+      <FooterBis v-if="!$route.meta.requiresFooterBis"/>
     <Footer v-if="!$route.meta.requiresFooter"/>
   </v-app>
 </template>
@@ -14,13 +15,14 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import HeaderBack from '@/components/Header-back'
+import FooterBis from '@/components/Footer-bis'
 
 
 
 export default {
   name: 'App',
   components: {
-    Header , Footer , HeaderBack
+    Header , Footer , HeaderBack , FooterBis
   },
   data () {
     return {
