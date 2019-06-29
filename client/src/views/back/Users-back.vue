@@ -147,9 +147,10 @@ export default {
 
         async modify () {
             const userId = this.$route.params.userId
+            window.location.reload()
              try {
                 await BackEndService.updateUser(userId, this.userUpdate)
-                console.log(userId , )
+                console.log(userId , this.userUpdate)
             } catch (err) {
                 console.log(err)
             }

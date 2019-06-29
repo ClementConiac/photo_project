@@ -7,8 +7,11 @@ export default{
     displayItems () {
         return Api().get('admin/items')
     },
-    removeItem () {
-        return Api().delete('admin/items/:itemId')
+    updateItem (itemId, itemUpdate) {
+        return Api().put(`admin/items/${itemId}` , itemUpdate)
+    },
+    removeItem (itemId) {
+        return Api().delete(`admin/items/${itemId}`)
     },
 
     createUser (credentials){

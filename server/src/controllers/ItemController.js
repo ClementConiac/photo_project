@@ -2,6 +2,7 @@ const {Item} = require('../models')
 
 module.exports = {
     async createItem (req, res) {
+        console.log(req.file)
         try{
             const item = await Item.create(req.body)
             res.send(item)
@@ -18,6 +19,21 @@ module.exports = {
         } catch (err) {
             res.status(500).send({
                 error: 'An error has occured trying to fetch the items.'
+            })
+        }
+    },
+    async updateItem (req, res) {
+        try{
+            const itemId = req.params.itemId
+            const updateItem = await Item.update(req.body,{
+                where : {
+                    id: itemId
+                }
+            })
+            res.send(updateItem)
+        } catch (err) {
+            res.status(500).send({
+                error: 'An error has occured trying to update the item.'
             })
         }
     },

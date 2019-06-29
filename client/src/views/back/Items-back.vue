@@ -16,6 +16,13 @@
                                     <v-text-field label="Title" v-model="title" :rules="inputRules" prepend-icon="folder"></v-text-field>
                                     <v-textarea label="Description" v-model="description" :rules="inputRules" prepend-icon="edit"></v-textarea>
                                     <v-text-field label="Price" v-model="price" :rules="inputRulesNumber" prepend-icon="euro_symbol"></v-text-field>
+                                    <v-layout column align-start>
+                                        <img :src="imageUrl" height="150">
+                                        <v-btn flat class="primary mx-0 mb-4" @click="importFile">Upload image</v-btn>
+                                        <input type="file" style="display: none;" ref="fileInput" accept="image/*" @change="onFilePicked">
+                                    </v-layout>
+                                        
+                                    
                                     <v-btn flat class="mx-0 mt-3 primary" @click="create">Save</v-btn>
                                 </v-form>
                             </v-card-text>
@@ -51,15 +58,36 @@
                                     </v-card-title>
                                     <v-card-text>
                                         <v-form>
-                                            <v-text-field label="Title" v-model="title" prepend-icon="folder"></v-text-field>
-                                            <v-textarea label="Description" v-model="description" prepend-icon="edit"></v-textarea>
-                                            <v-text-field label="Price" v-model="price" :rules="inputRules" prepend-icon="euro_symbol"></v-text-field>
+                                            <v-text-field label="Title" v-model="itemUpdate.title" prepend-icon="folder"></v-text-field>
+                                            <v-textarea label="Description" v-model="itemUpdate.description" prepend-icon="edit"></v-textarea>
+                                            <v-text-field label="Price" v-model="itemUpdate.price" prepend-icon="euro_symbol"></v-text-field>
                                             <v-btn flat class="mx-0 mt-3 primary" @click="modify">Modify</v-btn>
                                         </v-form>
                                     </v-card-text>
                                 </v-card>
                         </v-dialog>
-                        <v-btn flat class="red accent--text" :to="{name:'admin-items-id', params:{itemId: item.id}}" @click="remove">Delete</v-btn>
+                        <v-dialog max-width="290" v-model="dialogSecure">
+                            <v-btn flat slot="activator" class="red accent--text" :to="{name:'admin-items-id', params:{itemId: item.id}}">Delete</v-btn>
+                            <v-card>
+                                <v-card-title class="headline">Verification</v-card-title>
+
+                                <v-card-text>
+                                    <p>Are you sure you want to delete <span class="font-weight-bold">{{ item.title }}?</span></p>
+                                </v-card-text>
+
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+
+                                    <v-btn class="primary accent--text" flat @click="dialogSecure = false">
+                                        Disagree
+                                    </v-btn>
+
+                                    <v-btn class="error accent--text" flat @click="remove">
+                                        Agree
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
                    </v-flex>
                </v-layout>
                <v-divider></v-divider>
@@ -77,6 +105,15 @@ export default {
             title: '',
             description: '',
             price: '',
+            imageUrl: '',
+            image: null,
+            imageName: '',
+            itemUpdate: {
+                title: '',
+                description: '',
+                price: '',
+                imageUrl: ''
+            },
             inputRules: [
                 v => v.length >= 3 || 'Minimum length is 3 characters'
             ],
@@ -84,6 +121,7 @@ export default {
                 v => v >= /^[0-9]$/ || 'Only number allowed here'
             ],
             dialog: false,
+            dialogSecure: false,
             items: null,
         }
     },
@@ -91,12 +129,14 @@ export default {
         this.items = (await BackEndService.displayItems()).data
     },
     methods: {
-        async create() {
+        async create () {
             if (this.$refs.form.validate()){
-                try{
+/*                 window.location.reload()
+ */            try{
                 const response = await BackEndService.createItem({
                     title: this.title,
                     description: this.description,
+                    image: Date.now() + this.imageName,
                     price: this.price,
                 }).then(() => {
                     this.dialog = false
@@ -109,18 +149,44 @@ export default {
                 }
             }
         },
-        modify () {
+        async modify () {
+            window.location.reload()
+            const itemId = this.$route.params.itemId
+             try {
+                await BackEndService.updateItem(itemId, this.itemUpdate)
+                console.log(itemId , this.itemUpdate)
+            } catch (err) {
+                console.log(err)
+            }
         },
-        async remove() {
+        async remove () {
+            const itemId = this.$route.params.itemId
+            window.location.reload()
             try{
-                const response = await BackEndService.removeItem()
+                const response = await BackEndService.removeItem(itemId)
+                
             } catch (error) {
                 this.error = error.response.data.error
             }
-        }
-    },
-    watch: {
-
+        },
+        importFile () {
+            this.$refs.fileInput.click()
+        },
+        onFilePicked (event) {
+            const files = event.target.files
+            let filename = files[0].name
+            if (filename.lastIndexOf('.') <= 0) {
+                return alert('Please add a valid file !')
+            }
+            const fileReader = new FileReader()
+            fileReader.addEventListener('load', () => {
+                this.imageUrl = fileReader.result
+            })
+            fileReader.readAsDataURL(files[0])
+            this.image = files[0]
+            this.imageName = filename
+/*             console.log('je suis image :', this.image, 'je suis name:' ,Date.now() + this.imageName)
+ */      },
     }
 }
 </script>
