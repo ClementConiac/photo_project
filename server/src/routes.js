@@ -1,8 +1,33 @@
 const AuthenticationController = require ('./controllers/AuthenticationController')
 const AuthenticationControllerPolicy = require ('./policies/AuthenticationControllerPolicy')
 const ItemController = require ('./controllers/ItemController')
-
 const UserController = require ('./controllers/UserController')
+
+const multer = require('multer')
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './../client/src/assets/img/')
+    },
+    filename: function(req, file, cb) {
+        cb(null, Date.now() + file.originalname)
+    }
+})
+const fileFilter = (req, file, cb) => {
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true)
+    } else {
+        cb(null, false)
+    }
+}
+const upload = multer({
+    storage: storage, 
+    limits: {
+        fileSize: 1024*1024*5
+    },
+    fileFilter: fileFilter
+})
+
+
 
 module.exports = (app) =>{
     app.post('/register',
@@ -13,7 +38,7 @@ module.exports = (app) =>{
         AuthenticationController.login
     )
 
-    app.post('/admin/items',
+    app.post('/admin/items', upload.single('image'),
         ItemController.createItem
     )
 

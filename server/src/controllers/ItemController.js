@@ -2,9 +2,13 @@ const {Item} = require('../models')
 
 module.exports = {
     async createItem (req, res) {
-        console.log(req.file)
         try{
-            const item = await Item.create(req.body)
+            const item = await Item.create({
+                title: req.body.title,
+                description: req.body.description,
+                image: req.file.filename,
+                price: req.body.price
+            })
             res.send(item)
         } catch(err){
             res.status(500).send({

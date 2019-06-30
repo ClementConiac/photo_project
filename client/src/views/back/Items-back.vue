@@ -19,7 +19,7 @@
                                     <v-layout column align-start>
                                         <img :src="imageUrl" height="150">
                                         <v-btn flat class="primary mx-0 mb-4" @click="importFile">Upload image</v-btn>
-                                        <input type="file" style="display: none;" ref="fileInput" accept="image/*" @change="onFilePicked">
+                                        <input type="file" style="display: none;" ref="fileInput" accept="image/*" name="image" @change="onFilePicked">
                                     </v-layout>
                                         
                                     
@@ -106,7 +106,7 @@ export default {
             description: '',
             price: '',
             imageUrl: '',
-            image: null,
+            image: '',
             imageName: '',
             itemUpdate: {
                 title: '',
@@ -131,8 +131,9 @@ export default {
     methods: {
         async create () {
             if (this.$refs.form.validate()){
-/*                 window.location.reload()
+/*             window.location.reload()
  */            try{
+                console.log('je passe la')
                 const response = await BackEndService.createItem({
                     title: this.title,
                     description: this.description,
@@ -185,8 +186,7 @@ export default {
             fileReader.readAsDataURL(files[0])
             this.image = files[0]
             this.imageName = filename
-/*             console.log('je suis image :', this.image, 'je suis name:' ,Date.now() + this.imageName)
- */      },
+      },
     }
 }
 </script>
