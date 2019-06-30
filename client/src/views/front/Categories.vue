@@ -1,32 +1,25 @@
 <template>
     <section>            
-        <v-tabs v-model="active" color="secondary" slider-color="primary">
-            <v-tab v-for="item in items" :key="item.title" ripple>
-                {{ item.title }}
-            </v-tab>
-        </v-tabs>
+        <div class="tabs-shop secondary py-3">
+            <h3 class="mb-0">Catégorie n°1</h3>
+        </div>
         <v-container class="container-categories">
-            
-            <v-layout class="mt-4 shop-mobile" row wrap>
+            <v-layout class="mt-4 best-seller-mobile" row wrap justify-center>
                 <v-flex xs12 md6 lg6 class="d-flex" justify-space-around>
-                    <div class="content-categorie">
-                        <img :src="require('../../assets/img/photo-device-photoshop.png')" class="responsive-img" aspect-ratio="2">
-                        <v-btn to="/product" depressed color="primary" class="mb-4 mt-3">Fiche produit</v-btn>
-                    </div>
-                    <div class="content-categorie">
-                        <img :src="require('../../assets/img/photo-device-photoshop.png')" class="responsive-img" aspect-ratio="2">
-                        <v-btn to="/product" depressed color="primary" class="mt-3">Fiche produit</v-btn>
-                    </div>
-                </v-flex>
-                <v-flex xs12 md6 lg6 class="d-flex" justify-space-around>
-                    <div class="content-categorie">
-                        <img :src="require('../../assets/img/photo-device-photoshop.png')" class="responsive-img" aspect-ratio="2">
-                        <v-btn to="/product" depressed color="primary" class="mb-4 mt-3">Fiche produit</v-btn>
-                    </div>
-                    <div class="content-categorie">
-                        <img :src="require('../../assets/img/photo-device-photoshop.png')" class="responsive-img" aspect-ratio="2">
-                        <v-btn to="/product" depressed color="primary" class="mt-3">Fiche produit</v-btn>
-                    </div>
+                    <v-hover class="mx-3"  v-for="item in items" :key="item.id">
+                        <v-card slot-scope="{ hover }" class="hover-card">
+                            <img :src="require(`../../assets/img/${item.image}`)" class="img-responsive" aspect-ratio="2">
+                                <v-expand-transition>
+                                    <div v-if="hover" class="d-flex transition-fast-in-fast-out secondary v-card--reveal black--text" style="height: 100%;">
+                                        <p class="text-hover-name headline">{{ item.title }}</p>
+                                        <p class="text-hover-price headline">{{ item.price }}€</p>
+                                    </div>
+                                </v-expand-transition>
+                            <v-card-text class="pt-4 text-xs-center">
+                                <v-btn :to="{name:'product-id', params:{productId: item.id}}" depressd-flexed color="primary" class="mb-4 mt-3">Fiche produit</v-btn>
+                            </v-card-text>
+                        </v-card>
+                    </v-hover>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -34,81 +27,17 @@
 </template>
 
 <script>
+import FrontEndService from '@/services/FrontEndService'
+
   export default {
     data () {
       return {
-        active: null,
-        items: [
-            {
-             title: 'aze',
-             books: [
-                {
-                    title: 'Books vert',
-                    text: 'aze',
-                    img: require('../../assets/img/multicolor_package-front.jpg'),
-                    titleCategory: 'Livres'
-                },
-                {
-                    title: 'Books bleu',
-                    text: 'rty',
-                    img: require('../../assets/img/multicolor_package-front.jpg'),    
-                },
-                {
-                    title: 'Books jaune',
-                    text: 'uio',
-                    img: require('../../assets/img/multicolor_package.jpg'),
-                },
-            ],
-            housses: [
-                {
-                    title: 'Housse verte',
-                    text: 'aze',
-                    img: require('../../assets/img/multicolor_package-front.jpg'),
-                    titleCategory: 'Housses'
-                },
-                {
-                    title: 'Housse bleu',
-                    text: 'rty',
-                    img: require('../../assets/img/multicolor_package-front.jpg'),     
-                },
-                {
-                    title: 'Housse jaune',
-                    text: 'uio',
-                    img: require('../../assets/img/multicolor_package.jpg'),
-                },
-            ],
-            backpacks: [
-                {
-                    title: 'Backpack vert',
-                    text: 'aze',
-                    img: require('../../assets/img/multicolor_package-front.jpg'),
-                    titleCategory: 'Sac à dos' 
-                },
-                {
-                    title: 'Backpack bleu',
-                    text: 'rty',
-                    img: require('../../assets/img/multicolor_package-front.jpg'),     
-                },
-                {
-                    title: 'Backpack jaune',
-                    text: 'uio',
-                    img: require('../../assets/img/multicolor_package.jpg'),
-                },
-            ],
-        }
-       
-        ],
-        
-
+        items: null
       }
     },
-    methods: {
-      next () {
-        const active = parseInt(this.active)
-        this.active = (active < 2 ? active + 1 : 0)
-        
-      }
-    }
+    async mounted () {
+        this.items = (await FrontEndService.displayItems()).data
+    },
   }
 </script>
 
@@ -116,19 +45,40 @@
     .container-categories{
         padding: 0;
     }
-    .responsive-img{
-        width: 75%;
-    }
-    .content-categorie{
+    .tabs-shop{
         display: flex;
-        flex-direction: column;
+        justify-content: center;
         align-items: center;
     }
-</style>
-<style>
-    .v-tabs__container{
+    .img-responsive{
+        width: 75%;
+    }
+    .v-card--reveal {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.7;
+        bottom: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+    .hover-card{
+        width: 30%;
         display: flex;
-        justify-content: space-evenly;
+        background-color: white !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: none;
+    }
+    .text-hover-name{
+        padding: 170px 0px 0px 0px;
+        margin: 0px 0px 0px 0px;
+    }
+    .text-hover-price{
+        padding: 0px 0px 90px 0px; 
+        margin: 0px 0px 0px 0px;
     }
 </style>
 

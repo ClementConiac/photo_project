@@ -27,8 +27,6 @@ const upload = multer({
     fileFilter: fileFilter
 })
 
-
-
 module.exports = (app) =>{
     app.post('/register',
         AuthenticationControllerPolicy.register,
@@ -38,10 +36,10 @@ module.exports = (app) =>{
         AuthenticationController.login
     )
 
+
     app.post('/admin/items', upload.single('image'),
         ItemController.createItem
     )
-
     app.get('/admin/items',
         ItemController.displayItems
     )
@@ -51,6 +49,7 @@ module.exports = (app) =>{
     app.delete('/admin/items/:itemId',
         ItemController.removeItem
     )
+
 
     app.post('/admin/users',
         UserController.createUser
@@ -64,4 +63,14 @@ module.exports = (app) =>{
     app.delete('/admin/users/:userId',
         UserController.removeUser
     )
+
+
+    app.get('/',
+        ItemController.displayItems
+    )
+    app.get('/product/:productId',
+        ItemController.show
+    )
+
+
 }

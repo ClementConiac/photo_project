@@ -16,6 +16,16 @@ module.exports = {
             })
         }
     },
+    async show (req, res) {
+        try{
+            const item = await Item.findByPk(req.params.productId)
+            res.send(item)
+        } catch (err) {
+            res.status(500).send({
+                error: 'An error has occured trying to fetch the product.'
+            })
+        }
+    },
     async displayItems (req, res) {
         try{
             const items = await Item.findAll()

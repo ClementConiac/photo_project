@@ -154,7 +154,7 @@ export default {
             'setUser'
         ]),
         logout () {
-            window.location.reload()
+            window.location.replace('/home');
             this.setToken(null)
             this.setUser(null)
         },

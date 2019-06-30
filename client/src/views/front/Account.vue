@@ -18,11 +18,6 @@
                 <v-icon color="primary">home</v-icon>
             </v-tab>
 
-            <v-tab href="#tab-4">
-                <span class="primary--text">Photos</span>
-                <v-icon color="primary">image</v-icon>
-            </v-tab>
-
             <v-tab-item :value="'tab-' + 1">
                 <v-container>
                     <v-layout justify-center>
@@ -48,11 +43,10 @@
                                                 <v-flex class="pb-0" xs12 md4>
                                                     <v-text-field solo v-model="pasword" :rules="paswordRules" label="Mot de passe" :placeholder="$store.state.user.password" required></v-text-field>
                                                 </v-flex>
-
-                                                <!-- <v-flex class="pb-0" xs12 md4>
-                                                    <v-text-field solo v-model="pasword" :rules="paswordRules" label="Nouveau mot de passe" required></v-text-field>
-                                                </v-flex> -->
-                                                <v-btn depressed large color="primary">Modifier</v-btn>
+                                                <p class="text-xs-center">
+                                                    <v-btn depressed large color="primary" class="btn-info">Modifier</v-btn>
+                                                </p>
+                                                
                                             </v-layout>
                                         </v-container>
                                     </v-form>
@@ -134,59 +128,7 @@
                 </v-container>
             </v-tab-item>
 
-            <v-tab-item :value="'tab-' + 4">
-                <v-card flat>
-                    <v-card-text>
-                        <div class="title-images-content-mobile mb-2">
-                            <p class="text-xs-center headline mb-0">Mes images</p>
-                            <v-btn small depressed fab dark color="secondary">
-                                <v-icon large>add</v-icon>
-                            </v-btn>
-                            <v-btn small depressed fab dark color="error">
-                                <v-icon large>delete_forever</v-icon>
-                            </v-btn>
-                        </div>
-                        <template>
-                            <v-layout>
-                                <v-flex xs12 sm6 offset-sm3>
-                                <v-card>
-                                    <v-container grid-list-sm fluid>
-                                    <v-layout row wrap>
-                                        <v-flex
-                                        v-for="n in 9"
-                                        :key="n"
-                                        xs4
-                                        d-flex
-                                        >
-                                        <v-card flat tile class="d-flex">
-                                            <v-img
-                                            :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-                                            :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
-                                            aspect-ratio="1"
-                                            class="grey lighten-2"
-                                            >
-                                            <template v-slot:placeholder>
-                                                <v-layout
-                                                fill-height
-                                                align-center
-                                                justify-center
-                                                ma-0
-                                                >
-                                                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                                                </v-layout>
-                                            </template>
-                                            </v-img>
-                                        </v-card>
-                                        </v-flex>
-                                    </v-layout>
-                                    </v-container>
-                                </v-card>
-                                </v-flex>
-                            </v-layout>
-                        </template>
-                    </v-card-text>
-                </v-card>
-            </v-tab-item>
+           
         </v-tabs>
     </section>
 </template>

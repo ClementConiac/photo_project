@@ -33,20 +33,21 @@
 
             <v-card flat class="grey lighten-4" v-for="item in items" :key="item.id">
                <v-layout row wrap :class="`pa-3 item`">
-                   <v-flex xs12 md1>
+                   <v-flex xs6 sm4 md1>
                        <div class="caption grey--text">#</div>
-                       <div>{{ item.id }}</div>
+                        <div>{{ item.id }}</div>
                    </v-flex>
                    <v-flex xs12 md3>
-                       <div class="caption grey--text">Item title</div>
+                       <div class="caption grey--text">Title</div>
                        <div>{{ item.title }}</div>
+                        <img :src="require(`../../assets/img/${item.image}`)" alt="need asistance" class="img-responsive">
                    </v-flex>
-                   <v-flex xs6 sm4 md4>
+                   <v-flex xs12 md5>
                        <div class="caption grey--text">Description</div>
                        <div>{{ item.description }}</div>
                    </v-flex>
-                   <v-flex xs6 sm4 md2>
-                       <div class="caption grey--text">Price</div>
+                   <v-flex xs6 sm4 md1>
+                       <div class="caption grey--text">price</div>
                        <div>{{ item.price }}€</div>
                    </v-flex>
                    <v-flex xs12 sm4 md2 right>
@@ -133,7 +134,7 @@ export default {
             if (this.$refs.form.validate()){
 /*             window.location.reload()
  */            try{
-                console.log('je passe la')
+                console.log('title:', this.title, 'price:', this.price, 'description:', this.description, 'image:', Date.now() + this.imageName,)
                 const response = await BackEndService.createItem({
                     title: this.title,
                     description: this.description,
@@ -200,5 +201,8 @@ export default {
     }
     .item.small {
         border-left: 4px solid #F44336;
+    }
+    .img-responsive{
+        width: 50%;
     }
 </style>

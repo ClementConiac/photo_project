@@ -31,9 +31,9 @@
 
                         <v-card-actions class="add-column-cart">
                             <div class="error--text mb-3" v-html="error"/>
-                            <router-link to="register" depressed class="mb-3 mx-5 accent black--text">Vous avez déjà un compte ? Connectez vous !</router-link>
+                            <router-link to="register" depressed class="mb-3 mx-5 accent black--text font-weight-bold">Vous n'avez pas de compte ? Inscrivez vous !</router-link>
                             <v-btn depressed @click="login" large class="mb-3" color="primary">Connexion</v-btn>
-                            <router-link to="home" depressed class="mb-3 mx-5 accent black--text">Retour</router-link>                        
+                            <router-link to="home" depressed class="mb-3 mx-5 accent black--text font-weight-bold">Retour</router-link>                        
                         </v-card-actions>
                     </v-card>
                 </v-flex>
