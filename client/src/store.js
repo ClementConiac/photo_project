@@ -19,7 +19,8 @@ export default new Vuex.Store({
     isAdmin : null,
     cartProducts: [],
     currentProduct: {},
-  },
+/*     showDrawer: false,
+ */},
 
   mutations: {
     setToken (state, token) {
@@ -52,6 +53,9 @@ export default new Vuex.Store({
     CURRENT_PRODUCT: (state, product) => {
       state.currentProduct = product
     },
+    /* SHOW_DRAWER: (state) => {
+      state.showDrawer = !state.showDrawer;
+    }, */
     
   },
 
@@ -74,6 +78,9 @@ export default new Vuex.Store({
     currentProduct: (context, product) => {
       context.commit('CURRENT_PRODUCT', product)
     },
+    /* showOrHiddeDrawer: (context) => {
+      context.commit('SHOW_POPUP_CART');
+    }, */
   },
 
   getters: {
@@ -83,5 +90,6 @@ export default new Vuex.Store({
     getProducts: state => state.items,
     getProductsInCart: state => state.cartProducts,
     getCurrentProduct: state => state.currentProduct,
-  },
+/*     getDrawer: state => state.showDrawer,
+ */  },
 })

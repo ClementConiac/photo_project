@@ -17,7 +17,7 @@
                 <v-flex xs12 lg3 class="information-product-mobil mt-3 hidden-sm-and-up">
                     <p class="title">Description</p>
                     <p class="text-xs-center px-3">{{ currentProduct.description }}</p>
-                    <v-btn to="/modify" depressed large color="primary" class="mt-4 ml-0 mb-5">Modifier le produit</v-btn>
+                    <v-btn depressed large color="primary" class="mt-4 ml-0 mb-5" @click="addProductToCart(currentProduct)">Ajouter au panier</v-btn>
                 </v-flex>
                 <v-flex xs12 lg6 md6 sm6 class="information-product mt-3 hidden-xs-only">
                     <div>

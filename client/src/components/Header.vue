@@ -1,49 +1,50 @@
 <template>
     <section>
-            <v-toolbar app class="menu-shadow" flat color="black" height="75">
-                <v-toolbar-title class="text-uppercase">
-                    <router-link class="font-weight-light accent--text point-cursor" to="home">Photo<span class="accent--text font-weight-medium">Flex</span></router-link>
-                </v-toolbar-title>
-                <v-spacer></v-spacer>
-
-                <v-toolbar-items v-for="link in links" :key="link.text"  class="hidden-sm-and-down">
-                    <v-btn class="white--text point-cursor" flat :to="link.route">{{ link.text }}</v-btn>
-                </v-toolbar-items>
-                <div class="hidden-sm-and-down">
-                    <v-btn class="accent--text point-cursor" v-if="!$store.state.isUserLoggedIn" flat to="login">Connexion/Inscription</v-btn>
-                    <v-menu offset-y v-if="$store.state.isUserLoggedIn">
-                        <v-btn flat slot="activator" color="accent">
-                            <span>{{$store.state.user.firstname}}</span>
-                            <v-icon right>expand_more</v-icon>
-                        </v-btn>
-                        <v-list>
-                            <v-list-tile to="account">
-                                <v-list-tile-title>Informations</v-list-tile-title>
-                            </v-list-tile>
-                            <v-list-tile to="account">
-                                <v-list-tile-title>Commandes</v-list-tile-title>
-                            </v-list-tile>
-                            <v-list-tile to="account">
-                                <v-list-tile-title>Adresses</v-list-tile-title>
-                            </v-list-tile>
-                            <v-list-tile to="account">
-                                <v-list-tile-title>Photos</v-list-tile-title>
-                            </v-list-tile>
-                            <v-list-tile v-if="isAdmin" to="admin">
-                                <v-list-tile-title class="orange--text">Administration</v-list-tile-title>
-                            </v-list-tile>
-                            <v-list-tile @click="logout">
-                                <v-list-tile-title class="error--text">Déconnexion</v-list-tile-title>
-                            </v-list-tile>
-                        </v-list>
-                    </v-menu>
-                </div>
-                <v-btn fab flat>
-                    <v-icon class="accent--text" @click="drawerCart = !drawerCart">shopping_cart</v-icon>
-                </v-btn> 
-
-                <v-toolbar-side-icon class="hidden-md-and-up accent--text" @click="drawer = !drawer"></v-toolbar-side-icon>
-            </v-toolbar>
+        <v-toolbar app class="menu-shadow" flat color="black" height="75">
+            <v-toolbar-side-icon class="hidden-md-and-up accent--text" @click="drawer = !drawer"></v-toolbar-side-icon>
+            <v-toolbar-title class="text-uppercase">
+                <router-link class="font-weight-light accent--text point-cursor" to="home">Photo<span class="accent--text font-weight-medium">Flex</span></router-link>
+            </v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-toolbar-items v-for="link in links" :key="link.text"  class="hidden-sm-and-down">
+                <v-btn class="white--text point-cursor" flat :to="link.route">{{ link.text }}</v-btn>
+            </v-toolbar-items>
+            <div class="hidden-sm-and-down">
+                <v-btn class="accent--text point-cursor" v-if="!$store.state.isUserLoggedIn" flat to="login">Connexion/Inscription</v-btn>
+                <v-menu offset-y v-if="$store.state.isUserLoggedIn">
+                    <v-btn flat slot="activator" color="accent">
+                        <span>{{$store.state.user.firstname}}</span>
+                        <v-icon right>expand_more</v-icon>
+                    </v-btn>
+                    <v-list>
+                        <v-list-tile to="account">
+                            <v-list-tile-title>Informations</v-list-tile-title>
+                        </v-list-tile>
+                        <v-list-tile to="account">
+                            <v-list-tile-title>Commandes</v-list-tile-title>
+                        </v-list-tile>
+                        <v-list-tile to="account">
+                            <v-list-tile-title>Adresses</v-list-tile-title>
+                        </v-list-tile>
+                        <v-list-tile to="account">
+                            <v-list-tile-title>Photos</v-list-tile-title>
+                        </v-list-tile>
+                        <v-list-tile v-if="isAdmin" to="admin">
+                            <v-list-tile-title class="orange--text">Administration</v-list-tile-title>
+                        </v-list-tile>
+                        <v-list-tile @click="logout">
+                            <v-list-tile-title class="error--text">Déconnexion</v-list-tile-title>
+                        </v-list-tile>
+                    </v-list>
+                </v-menu>
+            </div>
+            <v-btn fab flat>
+                <v-icon class="accent--text" @click="drawerCart = !drawerCart" right>shopping_cart</v-icon>
+            </v-btn>
+            <span class="accent--text" v-if="hasProduct()">
+                    {{ getProductsInCart.length }}
+                </span>
+        </v-toolbar>
         
     
         <v-navigation-drawer app v-model="drawer" disable-resize-watcher class="primary">
@@ -86,7 +87,7 @@
             </div>
         </v-navigation-drawer>
 
-        <v-navigation-drawer v-model="drawerCart" v-if="$store.state.isUserLoggedIn" right app class="primary" width="400px">
+        <v-navigation-drawer v-model="drawerCart" v-if="$store.state.isUserLoggedIn" right app class="primary" width="350px">
             <v-layout>
                 <v-flex>
                     <p class="accent--text text-xs-center title text-uppercase my-4">Panier</p>
@@ -157,8 +158,7 @@ export default {
             icon: 'dashboard',
             title: 'Boutiue',
             items: [
-              { title: 'Casquette', route: '/shop'},
-              { title: 'Sacoche', route: '/shop'},
+              { title: 'Categorie n°1', route: '/shop'},
             ]
           },
           {
