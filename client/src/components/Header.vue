@@ -38,11 +38,8 @@
                         </v-list>
                     </v-menu>
                 </div>
-                
-
-
                 <v-btn fab flat>
-                    <v-icon class="accent--text">shopping_cart</v-icon>
+                    <v-icon class="accent--text" @click="drawerCart = !drawerCart">shopping_cart</v-icon>
                 </v-btn> 
 
                 <v-toolbar-side-icon class="hidden-md-and-up accent--text" @click="drawer = !drawer"></v-toolbar-side-icon>
@@ -87,7 +84,30 @@
                     <span>Déconnexion</span>
                 </v-btn>
             </div>
-            
+        </v-navigation-drawer>
+
+        <v-navigation-drawer v-model="drawerCart" right app class="primary" width="400px">
+            <v-layout>
+                <v-flex>
+                    <p class="accent--text text-xs-center title text-uppercase my-4">Panier</p>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex class="cart-struct">
+                    <img :src="require('../assets/img/1561915638954casquette-modif.jpg')" class="img-responsive" alt="">
+                    <div class="cart-struct-info">
+                        <p class="accent--text mb-0 title">Product name</p>
+                        <p class="accent--text mb-0">25 €</p>
+                        <v-btn class="mb-0 ml-0 error btn-delete-cart" small>remove</v-btn>
+                    </div>
+                    <div class="cart-struct-quantity">
+                        <v-icon class="accent--text">keyboard_arrow_up</v-icon>
+                        <p class="mb-0 accent--text"></p>
+<!--                         <input class="accent" type="number">
+ -->                    <v-icon class="accent--text">keyboard_arrow_down</v-icon>
+                    </div>
+                </v-flex>
+            </v-layout>
         </v-navigation-drawer>
     </section>
 </template>
@@ -99,6 +119,8 @@ export default {
     data () {
         return {
         drawer: false,
+        drawerCart: false,
+        numberIncrement: 0,
         links: [
           {icon: '', text: 'Home',categories: 'test-cats', route: 'home'},
           {icon: '', text: 'Boutique',categories: 'test-cats', route: 'shop'},
@@ -166,6 +188,14 @@ export default {
       }
     }
 }
+    /* var removeCartItemButtons = document.getElementsByClassName('btn-delete-cart')
+    console.log(removeCartItemButtons)
+    for ( var i = 0; i < removeCartItemButtons.length; i++) {
+        var button = removeCartItemButtons[i]
+        button.addEventListener('click', function(event) {
+            console.log('clicked')
+        })
+    } */
 </script>
 
 <style scoped>
@@ -192,5 +222,25 @@ export default {
     }
     .point-cursor{
         cursor: pointer;
+    }
+    .cart-struct{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly
+    }
+    .cart-struct-quantity{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+    .cart-struct-info{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly
+
+    }
+    .img-responsive{
+        width: 20%;
     }
 </style>

@@ -32,7 +32,11 @@
                         <p>{{ item.description }}</p>
                     </div>
                     
-                    <v-btn to="/modify" depressed large color="primary" class="my-4 ml-0">Modifier le produit</v-btn>
+                    <div>
+                        <v-btn to="/modify" depressed large color="primary" class="my-4 ml-0">Modifier le produit</v-btn>
+                        <v-btn depressed large color="primary" class="my-4 ml-0">Ajouter au panier</v-btn>
+                    </div>
+                    
                 </v-flex>
             </v-layout>
         </v-container>
