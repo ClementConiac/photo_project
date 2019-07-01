@@ -13,7 +13,7 @@
                                 <p class="mb-0 title mb-1">Sacoche appareil photo</p>
                                 <p class="mb-0">Couleur : Noir</p>
                                 <p class="mb-0">Quantité : 2 - 99.98</p>
-                                <v-btn depressed color="secondary" class="ml-0 primary--text" width="100">Modifier</v-btn>
+                                <v-btn depressed color="secondary" class="ml-0 primary--text" width="100">remove</v-btn>
                             </div>
                         </v-card-title>
                     </v-card>

@@ -16,6 +16,8 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import HeaderBack from '@/components/Header-back'
 import FooterBis from '@/components/Footer-bis'
+import FrontEndService from '@/services/FrontEndService'
+
 
 
 
@@ -26,8 +28,13 @@ export default {
   },
   data () {
     return {
-      //
+      items: null
     }
-  }
+  },
+  async mounted () {
+        this.items = (await FrontEndService.displayItems()).data
+        this.$store.dispatch('setItems', this.items)
+        console.log(this.items)
+    },
 }
 </script>

@@ -10,21 +10,13 @@
         </v-container>
         <v-container class="container-home">
             <v-layout class="mt-4 best-seller-mobile" row wrap justify-center>
-                <v-flex xs12 md6 lg6 class="d-flex" justify-space-around>
-                    <v-hover class="mx-3" v-for="item in items" :key="item.id">
-                        <v-card slot-scope="{ hover }" class="hover-card">
-                            <img :src="require(`../../assets/img/${item.image}`)" class="img-responsive" aspect-ratio="2">
-                                <v-expand-transition>
-                                    <div v-if="hover" class="d-flex transition-fast-in-fast-out secondary v-card--reveal black--text" style="height: 100%;">
-                                        <p class="headline text-xs-center mt-2">{{ item.title }}</p>
-                                        <p class="headline mb-5">{{ item.price }}€</p>
-                                    </div>
-                                </v-expand-transition>
-                            <v-card-text class="pt-4 text-xs-center">
-                                <v-btn depressd-flexed color="primary" :to="{name:'product-id', params:{productId: item.id}}" class="mb-4 mt-3">Fiche produit</v-btn>
-                            </v-card-text>
-                        </v-card>
-                    </v-hover>
+                <v-flex xs12 md6 lg6 v-for="(product, index) in getProducts" :key="index" class="d-flex-center">
+                    <img :src="require(`../../assets/img/${product.image}`)" alt="" class="img-responsive">
+                    <p class="mb-0 headline font-weight-bold">{{ product.title }}</p>
+                    <p class="mb-0 headline">{{ product.price }}€</p>
+                    <router-link to="product">
+                        <v-btn depressed color="primary" @click="addCurrentProduct(product)" class="mb-4 mt-3">Fiche produit</v-btn>
+                    </router-link>
                 </v-flex>
             </v-layout>
             <v-layout class="justify-center mt-4 mb-5">
@@ -47,17 +39,32 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex'
 import FrontEndService from '@/services/FrontEndService'
 
 export default {
     data () {
         return {
-            items: null,
         }
     },
-    async mounted () {
-        this.items = (await FrontEndService.displayItems()).data
+     computed: {
+        ...mapGetters([
+            'getProducts',
+        ]),
     },
+    methods: {
+        ...mapActions([
+            'addProduct',
+            'currentProduct',
+        ]),
+        addProductToCart(product) {
+            this.addProduct(product);
+        },
+        addCurrentProduct(product) {
+            this.currentProduct(product);
+        },
+        
+    }
 }
 </script>
 
@@ -79,34 +86,16 @@ export default {
     .title-background-home{
         width: 100%;
     }
-    .img-responsive{
-        width: 75%;
-    }
-    .content-best-seller{
+    .d-flex-center{
         display: flex;
         flex-direction: column;
         align-items: center;
-    }
-    .v-card--reveal {
-        flex-direction: column;
-        align-items: center;
         justify-content: center;
-        opacity: 0.7;
-        bottom: 0;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-    }
-    .hover-card{
-        width: 30%;
-        display: flex;
-        background-color: white !important;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        box-shadow: none;
     }
     .team-text{
         max-width: 800px;
+    }
+    .img-responsive{
+        width: 40%;
     }
 </style>

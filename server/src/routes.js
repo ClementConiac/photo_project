@@ -65,11 +65,8 @@ module.exports = (app) =>{
     )
 
 
-    app.get('/',
+    app.post('/home',
         ItemController.displayItems
-    )
-    app.get('/product/:productId',
-        ItemController.show
     )
 
 

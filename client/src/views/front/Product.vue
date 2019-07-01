@@ -1,42 +1,37 @@
 <template>
     <section>
         <v-layout class="secondary hidden-sm-and-up" column justify-center>
-            <p class="headline text-xs-center mt-3 font-weight-bold">{{ item.title }}</p>
-            <p class="headline text-xs-center">{{ item.price }}€</p>
+            <p class="headline text-xs-center mt-3 font-weight-bold">{{ currentProduct.title }}</p>
+            <p class="headline text-xs-center">{{ currentProduct.price }}€</p>
         </v-layout>
         <v-container class="container-product mt-3">
             <v-layout justify-space-around row wrap>
                 <v-flex xs12 lg6 md6 sm6 class="control-main-img">
-                    <img :src="require(`../../assets/img/${item.image}`)" class="img-responsive" aspect-ratio="2">
+                    <img :src="require(`../../assets/img/${currentProduct.image}`)" class="img-responsive" aspect-ratio="2">
                     <div class="control-group-img">
-                        <img :src="require(`../../assets/img/${item.image}`)" class="img-small" aspect-ratio="2">
-                        <img :src="require(`../../assets/img/${item.image}`)" class="img-small" aspect-ratio="2">
-                        <img :src="require(`../../assets/img/${item.image}`)" class="img-small" aspect-ratio="2">
+                        <img :src="require(`../../assets/img/${currentProduct.image}`)" class="img-small" aspect-ratio="2">
+                        <img :src="require(`../../assets/img/${currentProduct.image}`)" class="img-small" aspect-ratio="2">
+                        <img :src="require(`../../assets/img/${currentProduct.image}`)" class="img-small" aspect-ratio="2">
                     </div>
                 </v-flex>
-
                 <v-flex xs12 lg3 class="information-product-mobil mt-3 hidden-sm-and-up">
                     <p class="title">Description</p>
-                    <p class="text-xs-center px-3">{{ item.description }}</p>
+                    <p class="text-xs-center px-3">{{ currentProduct.description }}</p>
                     <v-btn to="/modify" depressed large color="primary" class="mt-4 ml-0 mb-5">Modifier le produit</v-btn>
                 </v-flex>
-
                 <v-flex xs12 lg6 md6 sm6 class="information-product mt-3 hidden-xs-only">
                     <div>
-                        <h3 class="headline pb-4 font-weight-bold">{{ item.title }}</h3>
-                        <p class="headline">{{ item.price }}€</p>
+                        <h3 class="headline pb-4 font-weight-bold">{{ currentProduct.title }}</h3>
+                        <p class="headline">{{ currentProduct.price }}€</p>
                     </div>
-                    
                     <div>
                         <p class="title">Description</p>
-                        <p>{{ item.description }}</p>
+                        <p>{{ currentProduct.description }}</p>
                     </div>
-                    
                     <div>
                         <v-btn to="/modify" depressed large color="primary" class="my-4 ml-0">Modifier le produit</v-btn>
-                        <v-btn depressed large color="primary" class="my-4 ml-0">Ajouter au panier</v-btn>
+                        <v-btn depressed large color="primary" class="my-4 ml-0" @click="addProductToCart(currentProduct)">Ajouter au panier</v-btn>
                     </div>
-                    
                 </v-flex>
             </v-layout>
         </v-container>
@@ -44,17 +39,26 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex'
 import FrontEndService from '@/services/FrontEndService'
 
 export default {
     data () {
       return {
-          item: {}
       }
     },
-    async mounted () {
-        const productId = this.$store.state.route.params.productId
-        this.item = (await FrontEndService.show(productId)).data
+    computed: {
+        ...mapGetters({
+            currentProduct: 'getCurrentProduct',
+        }),
+    },
+    methods: {
+        ...mapActions([
+            'addProduct',
+        ]),
+        addProductToCart(product) {
+            this.addProduct(product);
+        },
     }
 }
 </script>

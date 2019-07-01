@@ -86,29 +86,44 @@
             </div>
         </v-navigation-drawer>
 
-        <v-navigation-drawer v-model="drawerCart" right app class="primary" width="400px">
+        <v-navigation-drawer v-model="drawerCart" v-if="$store.state.isUserLoggedIn" right app class="primary" width="400px">
             <v-layout>
                 <v-flex>
                     <p class="accent--text text-xs-center title text-uppercase my-4">Panier</p>
                 </v-flex>
             </v-layout>
+
             <v-layout row wrap>
-                <v-flex class="cart-struct">
-                    <img :src="require('../assets/img/1561915638954casquette-modif.jpg')" class="img-responsive" alt="">
+                <v-flex class="cart-struct mb-4" v-for="(product, index) in getProductsInCart" :key="index">
+                    <img :src="require(`./../assets/img/${product.image}`)" class="img-responsive" aspect-ratio="2">
                     <div class="cart-struct-info">
-                        <p class="accent--text mb-0 title">Product name</p>
-                        <p class="accent--text mb-0">25 €</p>
-                        <v-btn class="mb-0 ml-0 error btn-delete-cart" small>remove</v-btn>
+                        <p class="accent--text mb-0 title">{{ product.name }}</p>
+                        <p class="accent--text mb-0">{{ product.price }},00€</p>
+                        <v-btn class="mb-0 ml-0 error btn-delete-cart" small @click="remove(index)">remove</v-btn>
                     </div>
                     <div class="cart-struct-quantity">
                         <v-icon class="accent--text">keyboard_arrow_up</v-icon>
-                        <p class="mb-0 accent--text"></p>
-<!--                         <input class="accent" type="number">
- -->                    <v-icon class="accent--text">keyboard_arrow_down</v-icon>
+                        <p class="mb-0 accent--text">1</p>
+                        <v-icon class="accent--text">keyboard_arrow_down</v-icon>
                     </div>
                 </v-flex>
+                <div v-if="!hasProduct()" class="cart-empty mt-5">
+                    <h3 class="accent--text">Pas de produit dans le panier ...</h3>
+                    <v-btn depressed large color="secondary primary--text" to="/shop" class="my-4 ml-0">Boutique</v-btn>
+                </div>
+                <div v-if="hasProduct()" class="cart-not-empty mt-5">
+                     <h3 class="accent--text">
+                        Total: {{ totalPrice() }}, 00€
+                    </h3>
+                    <v-btn depressed large color="secondary primary--text" to="/cart" @click="drawerCart = !drawerCart" class="my-4 ml-0">Paiement</v-btn>
+                </div>
+               
             </v-layout>
         </v-navigation-drawer>
+
+        <!--   -->
+            
+
     </section>
 </template>
 
@@ -167,19 +182,42 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'isAdmin'
+            'isAdmin',
+            'getProducts',
+            'getProductsInCart',
         ])
     },
     methods: {
         ...mapActions([
             'setToken',
-            'setUser'
+            'setUser',
+            'addProduct',
+            'currentProduct',
+            'removeProduct',
         ]),
         logout () {
             window.location.replace('/home');
             this.setToken(null)
             this.setUser(null)
         },
+        addProductToCart(product) {
+            this.addProduct(product);
+        },
+        addCurrentProduct(product) {
+            this.currentProduct(product);
+        },
+        hasProduct() {
+            return this.getProductsInCart.length > 0;
+        },
+        totalPrice() {
+            return this.getProductsInCart.reduce((current, next) =>
+            current - next.price * -1, 0);
+        },
+        remove(index) {
+            this.removeProduct(index);
+        },
+
+
     },
     watch: {
       '$vuetify.breakpoint.mdAndUp': function () {
@@ -188,14 +226,6 @@ export default {
       }
     }
 }
-    /* var removeCartItemButtons = document.getElementsByClassName('btn-delete-cart')
-    console.log(removeCartItemButtons)
-    for ( var i = 0; i < removeCartItemButtons.length; i++) {
-        var button = removeCartItemButtons[i]
-        button.addEventListener('click', function(event) {
-            console.log('clicked')
-        })
-    } */
 </script>
 
 <style scoped>
@@ -238,7 +268,18 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: space-evenly
-
+    }
+    .cart-empty{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    .cart-not-empty{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
     }
     .img-responsive{
         width: 20%;

@@ -30,8 +30,8 @@ export default new Router({
       }
     },
     {
-      path: '/product/:productId',
-      name: 'product-id',
+      path: '/product',
+      name: 'product',
       component: Product,
       meta: {
         requiresFooterBis: false,
