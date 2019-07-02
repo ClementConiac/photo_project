@@ -134,7 +134,8 @@
 </template>
 
 <script>
-    export default {
+import {mapGetters, mapActions} from 'vuex'
+export default {
     data: () => ({
         valid: false,
         lastname: '',
@@ -156,12 +157,7 @@
             v => /.+@.+/.test(v) || 'E-mail doit être valide'
         ],
     }),
-
-    computed: {
-    },
-    methods: {
-    }
-  }
+}
 </script>
 <style scoped>
     

@@ -61,7 +61,9 @@ export default {
     },
     methods: {
         logout () {
-            window.location.replace('/home');
+            this.$router.push({
+                name: 'home'
+            })
             this.$store.dispatch('setToken', null)
             this.$store.dispatch('setUser', null)
         }

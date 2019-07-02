@@ -26,10 +26,7 @@
                         <v-list-tile to="account">
                             <v-list-tile-title>Adresses</v-list-tile-title>
                         </v-list-tile>
-                        <v-list-tile to="account">
-                            <v-list-tile-title>Photos</v-list-tile-title>
-                        </v-list-tile>
-                        <v-list-tile v-if="isAdmin" to="admin">
+                        <v-list-tile v-if="$store.state.user.isAdmin" to="admin">
                             <v-list-tile-title class="orange--text">Administration</v-list-tile-title>
                         </v-list-tile>
                         <v-list-tile @click="logout">
@@ -42,8 +39,8 @@
                 <v-icon class="accent--text" @click="drawerCart = !drawerCart" right>shopping_cart</v-icon>
             </v-btn>
             <span class="accent--text" v-if="hasProduct()">
-                    {{ getProductsInCart.length }}
-                </span>
+                {{ getProductsInCart.length }}
+            </span>
         </v-toolbar>
         
     
@@ -78,7 +75,7 @@
                 </v-expansion-panel-content>
             </v-expansion-panel>
             <div v-if="$store.state.isUserLoggedIn">
-                <v-btn v-if="isAdmin" flat class="orange--text" to="admin">
+                <v-btn v-if="$store.state.user.isAdmin" flat class="orange--text" to="admin">
                     <span>Administration</span>
                 </v-btn>
                 <v-btn @click="logout" flat color="error">
@@ -87,18 +84,17 @@
             </div>
         </v-navigation-drawer>
 
-        <v-navigation-drawer v-model="drawerCart" v-if="$store.state.isUserLoggedIn" right app class="primary" width="350px">
+        <v-navigation-drawer v-model="drawerCart" right app class="primary" width="350px">
             <v-layout>
                 <v-flex>
                     <p class="accent--text text-xs-center title text-uppercase my-4">Panier</p>
                 </v-flex>
             </v-layout>
-
             <v-layout row wrap>
                 <v-flex class="cart-struct mb-4" v-for="(product, index) in getProductsInCart" :key="index">
                     <img :src="require(`./../assets/img/${product.image}`)" class="img-responsive" aspect-ratio="2">
                     <div class="cart-struct-info">
-                        <p class="accent--text mb-0 title">{{ product.name }}</p>
+                        <p class="accent--text mb-0">{{ product.title }}</p>
                         <p class="accent--text mb-0">{{ product.price }},00€</p>
                         <v-btn class="mb-0 ml-0 error btn-delete-cart" small @click="remove(index)">remove</v-btn>
                     </div>
@@ -109,22 +105,22 @@
                     </div>
                 </v-flex>
                 <div v-if="!hasProduct()" class="cart-empty mt-5">
-                    <h3 class="accent--text">Pas de produit dans le panier ...</h3>
+                    <h3 class="accent--text">Pas de produit dans le panier ... :(</h3>
                     <v-btn depressed large color="secondary primary--text" to="/shop" class="my-4 ml-0">Boutique</v-btn>
                 </div>
                 <div v-if="hasProduct()" class="cart-not-empty mt-5">
-                     <h3 class="accent--text">
-                        Total: {{ totalPrice() }}, 00€
+                    <h3 class="accent--text ">
+                        Total: {{ totalPrice() }},00€
                     </h3>
-                    <v-btn depressed large color="secondary primary--text" to="/cart" @click="drawerCart = !drawerCart" class="my-4 ml-0">Paiement</v-btn>
+                    <v-layout row wrap justify-center v-if="$store.state.isUserLoggedIn" >
+                        <v-btn flat class="secondary primary--text point-cursor my-4" to="/cart" @click="drawerCart = !drawerCart">Paiement</v-btn>
+                    </v-layout>
+                    <v-layout row wrap justify-center v-if="!$store.state.isUserLoggedIn">
+                        <v-btn flat class="secondary primary--text point-cursor my-4" to="login">Connexion/Inscription</v-btn>
+                    </v-layout>
                 </div>
-               
             </v-layout>
         </v-navigation-drawer>
-
-        <!--   -->
-            
-
     </section>
 </template>
 
@@ -182,7 +178,6 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'isAdmin',
             'getProducts',
             'getProductsInCart',
         ])
@@ -196,9 +191,12 @@ export default {
             'removeProduct',
         ]),
         logout () {
-            window.location.replace('/home');
+            this.$router.push({
+                name: 'home'
+            })
             this.setToken(null)
             this.setUser(null)
+            this.$store.state.cartProducts = []
         },
         addProductToCart(product) {
             this.addProduct(product);

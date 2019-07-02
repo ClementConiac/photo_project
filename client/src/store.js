@@ -10,13 +10,12 @@ export default new Vuex.Store({
   plugins: [
     createPersistedState()
   ],
-  strict: true,
-  state: {
+/*   strict: true,
+ */state: {
     token: null,
     user: null,
     items: null,
     isUserLoggedIn: false,
-    isAdmin : null,
     cartProducts: [],
     currentProduct: {},
 /*     showDrawer: false,
@@ -33,13 +32,6 @@ export default new Vuex.Store({
     },
     setUser (state, user) {
       state.user = user
-      if(user.isAdmin == true) {
-        state.isAdmin = true
-        console.log('salut tu es admin')
-      } else {
-        state.isAdmin = false
-        console.log('salut tu n\'es pas admin')
-      }
     },
     setItems (state, items) {
       state.items = items
@@ -84,12 +76,9 @@ export default new Vuex.Store({
   },
 
   getters: {
-    isAdmin (state) {
-      return state.isAdmin
-    },
     getProducts: state => state.items,
     getProductsInCart: state => state.cartProducts,
     getCurrentProduct: state => state.currentProduct,
 /*     getDrawer: state => state.showDrawer,
- */  },
+ */},
 })

@@ -21,8 +21,6 @@
                                         <v-btn flat class="primary mx-0 mb-4" @click="importFile">Upload image</v-btn>
                                         <input type="file" style="display: none;" ref="fileInput" accept="image/*" name="image" @change="onFilePicked">
                                     </v-layout>
-                                        
-                                    
                                     <v-btn flat class="mx-0 mt-3 primary" @click="create">Save</v-btn>
                                 </v-form>
                             </v-card-text>

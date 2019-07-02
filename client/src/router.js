@@ -14,6 +14,7 @@ import Register from './views/front/Register.vue'
 import Login from './views/front/Login.vue'
 
 
+
 Vue.use(Router)
 
 export default new Router({
@@ -83,6 +84,7 @@ export default new Router({
       meta: {
         requiresFooterBis: false,
         requiresFooter: true,
+        requiresAuth: true,
       }
     },
     {
