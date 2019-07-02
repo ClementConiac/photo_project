@@ -9,22 +9,27 @@
                         </v-card-title>
                         <v-divider></v-divider>
                         <v-card-text v-for="(product, index) in getProductsInCart" :key="index" class="d-flex-card">
-                            <img :src="require(`../../assets/img/${product.image}`)" class="img-responsive" aspect-ratio="2">
-                            <div class="d-flex-info">
-                                <p class="mb-0 title mb-1">{{ product.title }}</p>
-                                <p class="mb-0 mb-1 text-description text-xs-center">{{ product.description }}</p>
-                                <p class="mb-0 title mb-1">{{ product.price }}€</p>
-                                <v-btn depressed color="error accent--text" class="ml-0 primary--text" @click="remove(index)">remove</v-btn>
-                            </div>
+                            <v-layout row wrap justify-center>
+                                <v-flex xs12 md3 class="hidden-xs-only mr-5">
+                                    <img :src="require(`../../assets/img/${product.image}`)" class="img-responsive" aspect-ratio="2">
+                                </v-flex>
+                                <v-flex xs12 md3 class="d-flex-img-mobile hidden-sm-and-up">
+                                    <img :src="require(`../../assets/img/${product.image}`)" class="img-responsive-mobile" aspect-ratio="2">
+                                </v-flex>
+                                <v-flex xs12 md3 class="d-flex-info">
+                                    <p class="mb-0 title mb-1">{{ product.title }}</p>
+                                    <p class="mb-0 mb-1 text-description text-xs-center">{{ product.description }}</p>
+                                    <p class="mb-0 title mb-1">{{ product.price }}€</p>
+                                    <v-btn depressed color="error accent--text" class="ml-0 primary--text" @click="remove(index)">remove</v-btn>
+                                </v-flex>
+                            </v-layout>
                         </v-card-text> 
                         <v-card-title class="d-flex-title-price">
-                            <div>
+                            <div class="payement-informations">
                                 <p class="text-xs-center mb-2 font-weight-bold">Articles: {{ totalPrice() }}€</p>
                                 <p class="text-xs-center mb-2 font-weight-bold">Livraison: 5€</p>
                                 <p class="text-xs-center mb-2 headline font-weight-bold">Total TTC*: {{ totalPrice() + 5}}€</p>
-                                <p class="text-xs-center">
-                                    <v-btn depressed large color="primary accent--text" class="mt-4 ml-0">Payer maintenant</v-btn>
-                                </p>
+                                <v-btn to="payement" depressed large color="primary accent--text" class="mt-4 ml-0">Payer maintenant</v-btn>
                                 <p>*Tous nos prix sont toutes taxes comprises.</p>
                             </div>
                         </v-card-title>
@@ -33,16 +38,15 @@
                         <h1>Pas de produit dans le panier ... :(</h1>
                         <v-btn depressed large color="secondary primary--text" to="/shop" class="my-4 ml-0">Boutique</v-btn>
                     </div>
-                    
                 </v-flex>
             </v-layout>
         </v-container>
     </section>
 </template>
 
+
 <script>
 import {mapGetters, mapActions} from 'vuex'
-
 export default {
      data () {
         return {
@@ -71,6 +75,7 @@ export default {
 }
 </script>
 
+
 <style scoped>
     .d-flex-title-card{
         display: flex;
@@ -93,14 +98,26 @@ export default {
         align-items: center;
     }
     .text-description{
-        width: 400px;
+        max-width: 400px;
     }
     .empty-cart-summary{
         display: flex;
         flex-direction: column;
         align-items: center;
     }
+    .payement-informations{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
     .img-responsive{
-        width: 25%;
+        width: 100%;
+    }
+    .img-responsive-mobile{
+        width: 100%;
+    }
+    .d-flex-img-mobile{
+        display: flex;
+        justify-content: center;
     }
 </style>

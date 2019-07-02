@@ -113,7 +113,7 @@
                         Total: {{ totalPrice() }},00€
                     </h3>
                     <v-layout row wrap justify-center v-if="$store.state.isUserLoggedIn" >
-                        <v-btn flat class="secondary primary--text point-cursor my-4" to="/cart" @click="drawerCart = !drawerCart">Paiement</v-btn>
+                        <v-btn flat class="secondary primary--text point-cursor my-4" to="/cart" @click="drawerCart = !drawerCart">Payement</v-btn>
                     </v-layout>
                     <v-layout row wrap justify-center v-if="!$store.state.isUserLoggedIn">
                         <v-btn flat class="secondary primary--text point-cursor my-4" to="login">Connexion/Inscription</v-btn>

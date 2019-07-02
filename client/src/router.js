@@ -6,6 +6,7 @@ import Shop from './views/front/Categories.vue'
 import Team from './views/front/Team.vue'
 import Account from './views/front/Account.vue'
 import Cart from './views/front/Cart.vue'
+import Payemenet from './views/front/Payement.vue'
 import Modify from './views/front/Modify.vue'
 import Administration from './views/back/Home-back.vue'
 import Users from './views/back/Users-back.vue'
@@ -91,6 +92,15 @@ export default new Router({
       path: '/cart',
       name: 'cart',
       component : Cart,
+      meta: {
+        requiresFooterBis: false,
+        requiresFooter: true
+      }
+    },
+    {
+      path: '/payement',
+      name: 'payement',
+      component : Payemenet,
       meta: {
         requiresFooterBis: false,
         requiresFooter: true

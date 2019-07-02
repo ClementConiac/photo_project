@@ -27,7 +27,6 @@
         </v-container>
     </section>
 </template>
-
 <script>
 export default {
     data () {

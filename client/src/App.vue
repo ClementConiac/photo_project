@@ -31,7 +31,6 @@ export default {
   async mounted () {
         this.items = (await FrontEndService.displayItems()).data
         this.$store.dispatch('setItems', this.items)
-        console.log(this.items)
     },
 }
 </script>

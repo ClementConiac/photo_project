@@ -2,6 +2,7 @@ const AuthenticationController = require ('./controllers/AuthenticationControlle
 const AuthenticationControllerPolicy = require ('./policies/AuthenticationControllerPolicy')
 const ItemController = require ('./controllers/ItemController')
 const UserController = require ('./controllers/UserController')
+const AdressController = require ('./controllers/AdressController')
 
 const multer = require('multer')
 const storage = multer.diskStorage({
@@ -64,10 +65,11 @@ module.exports = (app) =>{
         UserController.removeUser
     )
 
-
     app.post('/home',
         ItemController.displayItems
     )
 
-
+    app.get('/adresses',
+        AdressController.index
+    )
 }
