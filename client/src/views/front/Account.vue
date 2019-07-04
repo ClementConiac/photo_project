@@ -68,13 +68,13 @@
                                 <v-divider></v-divider>
                                 <v-card-text class="d-flex-card">
                                     <v-layout row wrap justify-center>
-                                        <v-flex xs12 md3 class="hidden-xs-only mr-5">
+                                        <v-flex xs12 md4 class="hidden-xs-only mr-5">
                                             <img src="./../../assets/img/1561915638954casquette-modif.jpg" class="img-responsive" aspect-ratio="2">
                                         </v-flex>
                                         <v-flex xs12 md3 class="d-flex-img-mobile hidden-sm-and-up">
                                             <img src="./../../assets/img/1561915638954casquette-modif.jpg" class="img-responsive-mobile" aspect-ratio="2">
                                         </v-flex>
-                                        <v-flex xs12 md3 class="d-flex-info">
+                                        <v-flex xs12 md6 class="d-flex-info">
                                             <p class="mb-0 title mb-1 title font-weight-bold text-xs-center">Casquette Metal Swoosh H86</p>
                                             <p class="mb-0 mb-1 text-description text-xs-center subheading font-weight-bold">6 rue de paris, France, Paris, 75019</p>
                                             <p class="mb-0 title mb-1">25€</p>

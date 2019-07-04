@@ -18,6 +18,7 @@ export default new Vuex.Store({
     isUserLoggedIn: false,
     cartProducts: [],
     currentProduct: {},
+    productPerso: []
 /*     showDrawer: false,
  */},
 
@@ -45,6 +46,9 @@ export default new Vuex.Store({
     CURRENT_PRODUCT: (state, product) => {
       state.currentProduct = product
     },
+    PRODUCT_PERSO: (state, product) => {
+      state.productPerso = product
+    },
     /* SHOW_DRAWER: (state) => {
       state.showDrawer = !state.showDrawer;
     }, */
@@ -69,6 +73,9 @@ export default new Vuex.Store({
     },
     currentProduct: (context, product) => {
       context.commit('CURRENT_PRODUCT', product)
+    },
+    productPerso: (context, product) => {
+      context.commit('PRODUCT_PERSO', product)
     },
     /* showOrHiddeDrawer: (context) => {
       context.commit('SHOW_POPUP_CART');

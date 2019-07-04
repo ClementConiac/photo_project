@@ -55,6 +55,7 @@ export default {
                 { icon: 'dashboard', text: 'Home', route: '/admin' },
                 { icon: 'folder', text: 'Items', route: '/admin/items' },
                 { icon: 'account_circle', text: 'Users', route: '/admin/users' },
+                { icon: 'home', text: 'Home', route: '/home' },
             ]
         }
     },

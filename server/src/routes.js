@@ -74,7 +74,7 @@ module.exports = (app) =>{
     app.post('/home',
         ItemController.displayItems
     )
-    app.post('/payement', function (req, res, next) {
+/*     app.post('/payement', function (req, res, next) {
     const stripeToken = req.body.stripeToken;
 
     const charge = stripe.charges.create({
@@ -98,7 +98,7 @@ module.exports = (app) =>{
         }
     }
     )
-    })
+    }) */
 
     app.get('/account',
         AdressController.index,
@@ -113,6 +113,4 @@ module.exports = (app) =>{
     app.delete('/account/:adressId',
         AdressController.removeAdress
     )
-
-
 }
