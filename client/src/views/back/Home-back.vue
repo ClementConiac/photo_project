@@ -8,8 +8,21 @@
 
 <script>
 export default {
-    
+    data () {
+        return {
+
+        }
+    },
+    mounted () {
+        if(!this.$store.state.isUserLoggedIn || !this.$store.state.user.isAdmin) {
+            this.$router.push({
+                name: 'home'
+            })
+        }
+    }
+   
 }
+
 </script>
 
 <style scoped>

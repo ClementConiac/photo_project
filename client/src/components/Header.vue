@@ -17,14 +17,8 @@
                         <v-icon right>expand_more</v-icon>
                     </v-btn>
                     <v-list>
-                        <v-list-tile to="account">
+                        <v-list-tile :to="{name:'account-id', params:{userId: this.$store.state.user.id}}">
                             <v-list-tile-title>Informations</v-list-tile-title>
-                        </v-list-tile>
-                        <v-list-tile to="account">
-                            <v-list-tile-title>Commandes</v-list-tile-title>
-                        </v-list-tile>
-                        <v-list-tile to="account">
-                            <v-list-tile-title>Adresses</v-list-tile-title>
                         </v-list-tile>
                         <v-list-tile v-if="$store.state.user.isAdmin" to="admin">
                             <v-list-tile-title class="orange--text">Administration</v-list-tile-title>
@@ -137,7 +131,7 @@ export default {
           {icon: '', text: 'Home',categories: 'test-cats', route: 'home'},
           {icon: '', text: 'Boutique',categories: 'test-cats', route: 'shop'},
           {icon: '', text: 'Équipe',categories: 'test-cats', route: 'team'},
-          {icon: '', text: 'Contact',categories: 'test-cats', route: 'team#test'}
+          {icon: '', text: 'Contact',categories: 'test-cats', route: 'team'}
         ],
         items: [
           {

@@ -3,9 +3,15 @@
         <v-container>
             <v-layout row wrap>
                 <v-flex xs12 lg4 class="div-flex" align-center justify-center fill-height >
-                    <a class="title link-pages-footer mb-4 mt-3" href="">Boutique</a>
-                    <a class="title link-pages-footer mb-4" href="">Équipe</a>
-                    <a class="title link-pages-footer" href="">CGV/Mention légal</a>
+                    <router-link class="mb-4 link-foot" to="shop">
+                        <span class="title link-pages-footer">Boutique</span>
+                    </router-link>                    
+                    <router-link class="mb-4 link-foot" to="team">
+                        <span class="title link-pages-footer">Équipe</span>
+                    </router-link>
+                    <router-link class="link-foot" to="condition">
+                        <span class="title link-pages-footer">CGV/Mention légal</span>
+                    </router-link>
                 </v-flex>
 
                 <v-flex xs12 lg4 class="div-icons-socials my-4">
@@ -45,10 +51,10 @@ export default {
         justify-content: space-around;
         align-items: center;
     }
-    .link-pages-footer{
+    .link-foot{
         text-decoration: none;
     }
-    .div-flex a:hover{
+    .div-flex .link-foot:hover{
         text-decoration: underline #000000;
     }
     .footer-icons:hover{

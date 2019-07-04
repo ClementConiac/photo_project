@@ -77,6 +77,13 @@ export default {
             error: null
         }
     },
+    mounted () {
+        if(this.$store.state.isUserLoggedIn) {
+            this.$router.push({
+                name: 'home'
+            })
+        }
+    },
     methods: {
         async register() {
             try{

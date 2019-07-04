@@ -3,6 +3,12 @@ const AuthenticationControllerPolicy = require ('./policies/AuthenticationContro
 const ItemController = require ('./controllers/ItemController')
 const UserController = require ('./controllers/UserController')
 const AdressController = require ('./controllers/AdressController')
+const OrderController = require ('./controllers/OrderController')
+
+const stripe = require("stripe")("sk_test_jIyFCAXt6YmRlqHyDAHEOVos");
+
+/* const StripeController = require ('./controllers/StripeController')
+ */
 
 const multer = require('multer')
 const storage = multer.diskStorage({
@@ -68,8 +74,45 @@ module.exports = (app) =>{
     app.post('/home',
         ItemController.displayItems
     )
+    app.post('/payement', function (req, res, next) {
+    const stripeToken = req.body.stripeToken;
 
-    app.get('/adresses',
-        AdressController.index
+    const charge = stripe.charges.create({
+        amount: 1000,
+        currency: "usd",
+        description: "example charge",
+        source: stripeToken,
+    }, function(err, charge) {
+        console.log('charge')
+        console.log(charge)
+        if (err) {
+            res.send({
+                success: false,
+                message: 'Error'
+            })
+        } else {
+            res.send({
+                success: true,
+                message: 'Success'
+            })
+        }
+    }
     )
+    })
+
+    app.get('/account',
+        AdressController.index,
+        OrderController.order
+    )
+    app.post('/account',
+        AdressController.createAdress
+    )
+    app.put('/account/:adressId',
+        AdressController.updateAdress
+    )
+    app.delete('/account/:adressId',
+        AdressController.removeAdress
+    )
+
+
 }

@@ -6,7 +6,7 @@
 
             <v-layout row wrap justify-start class="mb-3">
                 <v-dialog max-width="600px" v-model="dialog">
-                    <v-btn flat slot="activator" class="primary">Add a new item</v-btn>
+                    <v-btn flat slot="activator" class="primary ml-0">Add a new item</v-btn>
                         <v-card>
                             <v-card-title>
                                 <h2>Add a new item</h2>
@@ -30,7 +30,7 @@
             </v-layout>
 
             <v-card flat class="grey lighten-4" v-for="item in items" :key="item.id">
-               <v-layout row wrap :class="`pa-3 item`">
+               <v-layout row wrap :class="`pa-3 item-color`">
                    <v-flex xs6 sm4 md1>
                        <div class="caption grey--text">#</div>
                         <div>{{ item.id }}</div>
@@ -125,6 +125,11 @@ export default {
         }
     },
     async mounted () {
+        if(!this.$store.state.isUserLoggedIn || !this.$store.state.user.isAdmin) {
+            this.$router.push({
+                name: 'home'
+            })
+        }
         this.items = (await BackEndService.displayItems()).data
     },
     methods: {
@@ -191,15 +196,10 @@ export default {
 </script>
 
 <style scoped>
-    .item.large {
-        border-left: 4px solid #4CAF50;
+    .item-color {
+        border-left: 4px solid #000000;
     }
-    .item.medium {
-        border-left: 4px solid #FF9800;
-    }
-    .item.small {
-        border-left: 4px solid #F44336;
-    }
+    
     .img-responsive{
         width: 50%;
     }

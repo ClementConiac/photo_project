@@ -41,7 +41,7 @@
                   rapidement possible.
                 </p>
             </v-layout>
-            <v-form v-model="valid" class="mb-3" id="test">
+            <v-form v-model="valid" class="mb-3">
                 <v-container>
                     <v-layout row wrap justify-center>
                         <v-flex xs12 lg7>

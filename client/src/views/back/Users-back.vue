@@ -6,7 +6,7 @@
 
             <v-layout row wrap justify-start class="mb-3">
                 <v-dialog max-width="600px" v-model="dialog">
-                    <v-btn flat slot="activator" class="primary">Add a new user</v-btn> <!-- activator make true by default -->
+                    <v-btn flat slot="activator" class="primary ml-0">Add a new user</v-btn> <!-- activator make true by default -->
                         <v-card>
                             <v-card-title>
                                 <h2>Add a new user</h2>
@@ -25,7 +25,7 @@
             </v-layout>
 
             <v-card flat class="grey lighten-4" v-for="user in users" :key="user.id">
-               <v-layout row wrap :class="`pa-3 user ${user.isAdmin}`">
+               <v-layout row wrap :class="`pa-3 user-color`">
                    <v-flex xs12 md1>
                        <div class="caption grey--text ">#</div>
                        <div>{{ user.id }}</div>
@@ -55,16 +55,17 @@
                                     </v-card-title>
                                     <v-card-text>
                                         <v-form ref="formUpdate">
-                                            <v-text-field type="text" label="Firstname" :placeholder="user.firstname" v-model="userUpdate.firstname" prepend-icon="folder"></v-text-field>
-                                            <v-text-field type="text" label="Lastname" :placeholder="user.lastname" v-model="userUpdate.lastname" prepend-icon="folder"></v-text-field>
-                                            <v-text-field type="email" label="Email" :placeholder="user.email" v-model="userUpdate.email" prepend-icon="folder"></v-text-field>
-                                            <v-text-field type="password" label="Password" :placeholder="user.password" v-model="userUpdate.password" prepend-icon="folder"></v-text-field>
+                                            <v-text-field type="text" label="Firstname" :rules="inputRules" :placeholder="user.firstname" v-model="userUpdate.firstname" prepend-icon="account_box"></v-text-field>
+                                            <v-text-field type="text" label="Lastname" :rules="inputRules" :placeholder="user.lastname" v-model="userUpdate.lastname" prepend-icon="account_box"></v-text-field>
+                                            <v-text-field type="email" label="Email" :rules="inputRules" :placeholder="user.email" v-model="userUpdate.email" prepend-icon="email"></v-text-field>
+                                            <v-text-field type="password" label="Password" :rules="inputRules" :placeholder="user.password" v-model="userUpdate.password" prepend-icon="fingerprint"></v-text-field>
+                                            <v-select item-value :items="items" item-text="state" label="Admin" prepend-icon="supervisor_account"></v-select>
                                             <v-btn flat class="mx-0 mt-3 primary" @click="modify">Modify</v-btn>
                                         </v-form>
                                     </v-card-text>
                                 </v-card>
                         </v-dialog>
-                        <v-dialog max-width="290" v-model="dialogSecure">
+                        <v-dialog max-width="290">
                             <v-btn flat slot="activator" class="red accent--text" :to="{name:'admin-users-id', params:{userId: user.id}}">Delete</v-btn>
                             <v-card>
                                 <v-card-title class="headline">Verification</v-card-title>
@@ -76,7 +77,7 @@
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
 
-                                    <v-btn class="primary accent--text" flat @click="dialogSecure = false">
+                                    <v-btn class="primary accent--text" flat @click="dialogSecure = !dialogSecure">
                                         Disagree
                                     </v-btn>
 
@@ -105,21 +106,30 @@ export default {
             email: '',
             password: '',
             userUpdate: {
-                firstname: null,
-                lastname: null,
-                email: null,
-                password: null,
+                firstname: '',
+                lastname: '',
+                email: '',
+                password: '',
+                selectAdmin: '',
             },
-            
             inputRules: [
                 v => v.length >= 3 || 'Minimum length is 3 characters'
             ],
             dialog: false,
             dialogSecure: false,
             users: null,
+            items: [
+                { state: false},
+                { state: true},
+            ]
         }
     },
     async mounted () {
+        if(!this.$store.state.isUserLoggedIn || !this.$store.state.user.isAdmin) {
+            this.$router.push({
+                name: 'home'
+            })
+        }
         this.users = (await BackEndService.displayUsers()).data
     },
 
@@ -133,11 +143,6 @@ export default {
                     lastname: this.lastname,
                     email: this.email,
                     password: this.password
-                }).then(() => {
-                    this.dialog = false
-                    this.$router.push({
-                        name: 'admin-users'
-                    })
                 })
                 } catch (error) {
                     this.error = error.response.data.error
@@ -146,37 +151,40 @@ export default {
         },
 
         async modify () {
-            const userId = this.$route.params.userId
-            window.location.reload()
-             try {
-                await BackEndService.updateUser(userId, this.userUpdate)
-                console.log(userId , this.userUpdate)
-            } catch (err) {
-                console.log(err)
-            }
+                const userId = this.$route.params.userId
+                try {
+                    await BackEndService.updateUser(userId, this.userUpdate)
+                    .then(() => {
+                        this.dialog = false
+                        this.$router.push({
+                            name: 'admin-users'
+                        })
+                    })
+                    console.log(userId , this.userUpdate)
+                } catch (err) {
+                    console.log(err)
+                }
+            
         },
         async remove() {
-            const userId = this.$route.params.userId
-            window.location.reload()
-            try{
-                const response = await BackEndService.removeUser(userId)
-                
-            } catch (error) {
-                this.error = error.response.data.error
-            }
+            
+                const userId = this.$route.params.userId
+                window.location.reload()
+                try{
+                    const response = await BackEndService.removeUser(userId)
+                    
+                } catch (error) {
+                    this.error = error.response.data.error
+                }
+            
         }
     }
 }
 </script>
 
 <style scoped>
-    .user.large {
-        border-left: 4px solid green;
+    .user-color {
+        border-left: 4px solid #000000;
     }
-    .user.medium {
-        border-left: 4px solid orange;
-    }
-    .user.small {
-        border-left: 4px solid red;
-    }
+
 </style>

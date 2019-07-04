@@ -4,8 +4,7 @@
             <v-toolbar-side-icon class="primary--text" @click="drawer = !drawer">    
             </v-toolbar-side-icon>
             <v-toolbar-title class="text-uppercase">
-                <span class="font-weight-light">Photo</span>
-                <span>Flex</span>
+                <router-link class="font-weight-light primary--text point-cursor" to="home">Photo<span class="primary--text font-weight-medium">Flex</span></router-link>
             </v-toolbar-title>
             <v-spacer></v-spacer>
 
@@ -72,5 +71,7 @@ export default {
 </script>
 
 <style scoped>
-
+    a{
+        text-decoration: none;
+    }
 </style>

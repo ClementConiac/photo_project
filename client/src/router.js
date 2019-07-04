@@ -4,6 +4,7 @@ import Home from './views/front/Home.vue'
 import Product from './views/front/Product.vue'
 import Shop from './views/front/Categories.vue'
 import Team from './views/front/Team.vue'
+import Condition from './views/front/Condition.vue'
 import Account from './views/front/Account.vue'
 import Cart from './views/front/Cart.vue'
 import Payemenet from './views/front/Payement.vue'
@@ -59,6 +60,15 @@ export default new Router({
       }
     },
     {
+      path: '/condition',
+      name: 'condition',
+      component : Condition,
+      meta: {
+        requiresFooterBis: false,
+        requiresFooter: true
+      }
+    },
+    {
       path: '/register',
       name: 'register',
       component : Register,
@@ -79,8 +89,18 @@ export default new Router({
       }
     },
     {
-      path: '/account',
-      name: 'account',
+      path: '/account/:userId',
+      name: 'account-id',
+      component : Account,
+      meta: {
+        requiresFooterBis: false,
+        requiresFooter: true,
+        requiresAuth: true,
+      }
+    },
+    {
+      path: '/account/:userId/adress/:adressId',
+      name: 'account-adress-id',
       component : Account,
       meta: {
         requiresFooterBis: false,
