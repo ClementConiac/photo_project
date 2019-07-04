@@ -10,7 +10,7 @@
                     <p></p>
                     <h2>2. Ajouter votre objet dans le panier</h2>
                     <p></p>
-                    <v-btn large flat class="primary mx-0 mb-4 mt-4">Ajouter au panier</v-btn>
+                    <v-btn large flat class="primary mx-0 mb-4 mt-4" @click="addProductPerso(currentProduct)">Ajouter au panier</v-btn>
                 </v-flex>
                 
                 <v-flex xs12 md6 class="img-center">
@@ -29,12 +29,13 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
     data () {
         return {
-            imageUrl: ''
+            imageUrl: '',
+            imageName: ''
         }
     },
     computed: {
@@ -62,6 +63,13 @@ export default {
             this.imageName = filename
         },
         
+        ...mapActions([
+            'productPerso',
+        ]),
+        addProductPerso(currentProduct) {
+            this.productPerso(currentProduct)
+            this.productPerso(this.imageName)
+        },
     }
 }
 </script>

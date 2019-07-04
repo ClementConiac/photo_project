@@ -3,7 +3,7 @@
         <v-toolbar app class="menu-shadow" flat color="black" height="75">
             <v-toolbar-side-icon class="hidden-md-and-up accent--text" @click="drawer = !drawer"></v-toolbar-side-icon>
             <v-toolbar-title class="text-uppercase">
-                <router-link class="font-weight-light accent--text point-cursor" to="home">Photo<span class="accent--text font-weight-medium">Flex</span></router-link>
+                <a class="font-weight-light accent--text point-cursor" href="/home">Photo<span class="accent--text font-weight-medium">Flex</span></a>
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items v-for="link in links" :key="link.text"  class="hidden-sm-and-down">
